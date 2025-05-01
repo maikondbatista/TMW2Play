@@ -1,0 +1,20 @@
+<h1>Welcome to {{ title }}!</h1>
+<div class="row">
+    <label for="input">
+        Enter your <b>Steam </b><a href="http://steamcommunity.com/my" target="_blank">profile</a>, be sure your profile is
+        <a href="https://help.steampowered.com/en/faqs/view/588C-C67D-0251-C276" target="_blank">public</a>!
+    </label>
+</div>
+<div class="text-center mt-5">
+    <div class="row justify-content-md-center">
+        <div class="col-2"></div>
+        <div class="col-7">
+            <input id="input" class="form-control" type="text" [(ngModel)]="steamUser"
+                placeholder="IAmViviOrnitier or https://steamcommunity.com/id/IAmViviOrnitier" />
+        </div>
+        <div class="col-1">
+            <button type="button" class="col-4 btn btn-primary w-100" (click)="UserProfile()">Go</button>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>

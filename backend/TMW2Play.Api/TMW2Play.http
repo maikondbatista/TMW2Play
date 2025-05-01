@@ -1,0 +1,6 @@
+@TMW2Play_HostAddress = http://localhost:5262
+
+GET {{TMW2Play_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
