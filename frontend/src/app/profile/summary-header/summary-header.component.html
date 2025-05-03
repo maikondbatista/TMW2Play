@@ -1,0 +1,26 @@
+<div class="profile-header gradient-bg-dark p-4">
+    <div class="row align-items-center m-4">
+        <div class="col-3 text-center">
+            <img [src]="playerSummary?.avatarfull" class="profile-pic img-fluid rounded-circle mb-3"
+                alt="Profile Picture">
+            <div class="mb-3">
+                <span class="status-offline">
+                    <i class="fas fa-circle status-icon"></i> Offline
+                </span>
+            </div>
+        </div>
+        <div class="col-9">
+            <h1 class="display-5">Thisgraça <span class="fs-4">(Mochila)</span>
+                <img [src]="'https://steamcommunity-a.akamaihd.net/public/images/countryflags/' + (playerSummary?.loccountrycode | lowercase)  +'.gif'"
+                    class="country-flag" alt="Country Flag" priority>
+            </h1>
+
+            <div class="mb-3">
+                <a [href]="playerSummary?.profileurl" class="btn btn-primary btn-sm" target="_blank">
+                    View Steam Profile
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

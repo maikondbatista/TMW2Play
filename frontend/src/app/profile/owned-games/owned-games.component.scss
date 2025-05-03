@@ -1,0 +1,23 @@
+.game-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #2c3e50 !important;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        border-color: #66c0f4 !important;
+    }
+}
+
+.loading-games {
+    opacity: 0.7;
+}
+
+.steam-btn {
+    background-color: #5c7e10;
+    font-weight: bold;
+
+    &:hover {
+        background-color: #6c8e20;
+    }
+}

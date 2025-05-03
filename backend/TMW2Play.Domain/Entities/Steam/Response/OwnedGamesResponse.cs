@@ -1,15 +1,11 @@
-﻿namespace TMW2Play.Domain.Entities.Steam.Response
+﻿namespace TMW2Play.Domain.Entities.Steam
 {
-    public class OwnedGamesModel
-    {
-        public OwnedGamesResponseModel response { get; set; }
-    }
-    public class OwnedGamesResponseModel
+    public class OwnedGamesResponse : SteamEntity
     {
         public int game_count { get; set; }
-        public List<OwnedGamesGameModel> games { get; set; }
+        public List<OwnedGameResponse> games { get; set; }
     }
-    public class OwnedGamesGameModel
+    public class OwnedGameResponse
     {
         public int appid { get; set; }
         public string name { get; set; }

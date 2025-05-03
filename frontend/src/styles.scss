@@ -2,3 +2,14 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+.gradient-bg-dark {
+    background: linear-gradient(135deg, #171a21 0%, #2a475e 100%);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.main-gradient {
+    margin-bottom: 1rem;
+}

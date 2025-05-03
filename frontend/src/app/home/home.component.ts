@@ -20,6 +20,6 @@ export class HomeComponent {
 
    private extractSteamUserId(url: string): string {
     const match = url.match(/steamcommunity\.com\/id\/([^/]+)/);
-    return match ? match[1] : '';
+    return match ? match[1] : url;
   }
 }

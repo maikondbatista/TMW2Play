@@ -1,24 +1,44 @@
 ﻿using System.Net.Http.Json;
 using TMW2Play.Domain.Core.Steam;
-using TMW2Play.Domain.Entities.Steam.Response;
+using TMW2Play.Domain.Entities.Steam;
 
 namespace TMW2Play.Infra.HTTP.Steam
 {
     public class SteamHttpService(HttpClient httpClient, SteamApiConfiguration steamApiService) : ISteamHttpService
     {
-        public async Task<OwnedGamesModel> GetUserOwnedGames(string steamId, CancellationToken cancellationToken = default)
+        public async Task<SteamApiResponse<SteamUserResponse>> GetSteamUserId(string username, CancellationToken cancellationToken = default)
         {
-            var urlUserId = steamApiService.UserIdByProfile(steamId);
+
+            var urlUserId = steamApiService.UserIdUrl(username);
             var response = await httpClient.GetAsync(urlUserId, cancellationToken);
             if (response.IsSuccessStatusCode)
             {
-                var content = await response.Content.ReadFromJsonAsync<OwnedGamesModel>();
+                var content = await response.Content.ReadFromJsonAsync<SteamApiResponse<SteamUserResponse>>(cancellationToken);
                 return content;
             }
-            else
+            return default;
+        }
+        public async Task<SteamApiResponse<PlayerSummaryResponse>> GetPlayerSummary(string steamId, CancellationToken cancellationToken = default)
+        {
+            var urlUserId = steamApiService.PlayerSummaryUrl(steamId);
+            var response = await httpClient.GetAsync(urlUserId, cancellationToken);
+            if (response.IsSuccessStatusCode)
             {
-                throw new Exception($"Error fetching data from Steam API: {response.StatusCode}");
+                var content = await response.Content.ReadFromJsonAsync<SteamApiResponse<PlayerSummaryResponse>>(cancellationToken);
+                return content;
             }
+            return default;
+        }
+        public async Task<SteamApiResponse<OwnedGamesResponse>> GetOwnedGames(string steamId, CancellationToken cancellationToken = default)
+        {
+            var userOwnedGamesUrl = steamApiService.OwnedGamesUrl(steamId);
+            var response = await httpClient.GetAsync(userOwnedGamesUrl, cancellationToken);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadFromJsonAsync<SteamApiResponse<OwnedGamesResponse>>(cancellationToken);
+                return content;
+            }
+            return default;
         }
     }
 }

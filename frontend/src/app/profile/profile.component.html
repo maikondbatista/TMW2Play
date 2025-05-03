@@ -1,1 +1,13 @@
-<p>profile works!</p>
+<div class="py-2">
+    <div class="row summary-charts">
+        <!-- Profile Header -->
+        <app-summary-header class="col-lg-7 main-gradient" [playerSummary]="playerSummary"></app-summary-header>
+        <!-- Profile Header -->
+        <app-charts-tab [ownedGamesSignal]="ownedGamesSignal" class="col-lg-5 main-gradient"></app-charts-tab>
+    </div>
+
+    <!-- Recent Activity Placeholder -->
+    <div class="col col-12">
+        <app-owned-games [ownedGamesSignal]="ownedGamesSignal"></app-owned-games>
+    </div>
+</div>

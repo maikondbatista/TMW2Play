@@ -1,0 +1,32 @@
+<div class="gradient-bg-dark p-2 h-100" data-bs-theme="dark">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs">
+        <li [ngbNavItem]="1" [destroyOnHide]="false">
+            <button ngbNavLink>Last 2 Weeks</button>
+            <ng-template ngbNavContent>
+                <div class="col-12">
+                    @if(twoWeeksData){
+                    <ngx-charts-advanced-pie-chart
+                    [results]="twoWeeksData"
+                    [view]="[400, 200]"
+                    >
+                  </ngx-charts-advanced-pie-chart>
+                }
+                </div>
+
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="2" [destroyOnHide]="false">
+            <button ngbNavLink>All Time</button>
+            <ng-template ngbNavContent>
+
+
+                <p>
+                    Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua,
+                    retro synth
+
+                </p>
+            </ng-template>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>

@@ -1,0 +1,19 @@
+html, body {
+    height: 100%; /* Ensure the body takes up the full height of the viewport */
+    margin: 0; /* Remove default margin */
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+  }
+  
+  .container.router {
+    flex: 1; /* Push the footer to the bottom by taking up remaining space */
+  }
+  
+  footer {
+    /* Optional: Add styling for the footer */
+    background-color: #f8f9fa;
+    padding: 1rem;
+  }
