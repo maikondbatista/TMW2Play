@@ -1,19 +1,15 @@
-<div class="profile-header gradient-bg-dark p-4">
-    <div class="row align-items-center m-4">
-        <div class="col-3 text-center">
+<div class="profile-header gradient-bg-dark p-2">
+    <div class="row align-items-center m-2">
+        <div class="col col-3 text-center">
             <img [src]="playerSummary?.avatarfull" class="profile-pic img-fluid rounded-circle mb-3"
                 alt="Profile Picture">
-            <div class="mb-3">
-                <span class="status-offline">
-                    <i class="fas fa-circle status-icon"></i> Offline
-                </span>
-            </div>
         </div>
-        <div class="col-9">
-            <h1 class="display-5">Thisgraça <span class="fs-4">(Mochila)</span>
+        <div class="col col-9">
+            <h6>Welcome, we are pleasured to have you here!</h6>
+            <h2 class="display-5">Thisgraça <span class="fs-4">(Mochila)</span>
                 <img [src]="'https://steamcommunity-a.akamaihd.net/public/images/countryflags/' + (playerSummary?.loccountrycode | lowercase)  +'.gif'"
                     class="country-flag" alt="Country Flag" priority>
-            </h1>
+            </h2>
 
             <div class="mb-3">
                 <a [href]="playerSummary?.profileurl" class="btn btn-primary btn-sm" target="_blank">
@@ -21,6 +17,14 @@
                 </a>
             </div>
 
+        </div>
+        <div class="row">
+            <div class="col col-12">
+                <div class="form-check form-switch" data-bs-theme="dark">
+                    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                    <label class="form-check-label" for="switchCheckDefault">Hide never played</label>
+                </div>
+            </div>
         </div>
     </div>
 </div>

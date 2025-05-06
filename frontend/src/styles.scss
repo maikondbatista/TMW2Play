@@ -13,3 +13,17 @@
 .main-gradient {
     margin-bottom: 1rem;
 }
+
+.owned-games-container {
+    overflow-y: auto;
+    height: calc(50vh - 83px - 2rem);
+    min-height: calc(50vh - 83px - 2rem);
+    max-height: calc(50vh - 83px - 2rem);
+}
+
+.profile-header {
+    height: 50vh;
+    min-height: 50vh;
+    max-height: 50vh;
+    overflow: auto;
+}

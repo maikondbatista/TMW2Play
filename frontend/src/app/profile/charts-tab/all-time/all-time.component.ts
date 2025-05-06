@@ -3,12 +3,12 @@ import { AdvancedPieChartModel } from '../../../shared/models/charts/advanced-pi
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
-  selector: 'app-last-two-weeks',
+  selector: 'app-all-time',
   imports: [NgxChartsModule],
   standalone: true,
-  templateUrl: './last-two-weeks.component.html',
-  styleUrl: './last-two-weeks.component.scss'
+  templateUrl: './all-time.component.html',
+  styleUrl: './all-time.component.scss'
 })
-export class LastTwoWeeksComponent {
+export class AllTimeComponent {
   @Input() data!: AdvancedPieChartModel[];
 }
