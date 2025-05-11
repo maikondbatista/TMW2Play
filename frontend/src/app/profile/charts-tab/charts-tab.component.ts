@@ -6,16 +6,17 @@ import { AdvancedPieChartModel } from '../../shared/models/charts/advanced-pie-c
 import { MinutesToHoursPipe } from '../../shared/pipes/minutes-to-hours.pipe';
 import { LastTwoWeeksComponent } from "./last-two-weeks/last-two-weeks.component";
 import { AllTimeComponent } from './all-time/all-time.component';
+import { TellMeWhatToPlayComponent } from './tell-me-what-to-play/tell-me-what-to-play.component';
 @Component({
   selector: 'app-charts-tab',
-  imports: [NgbNavModule, NgbAlertModule, LastTwoWeeksComponent, AllTimeComponent],
+  imports: [NgbNavModule, NgbAlertModule, LastTwoWeeksComponent, AllTimeComponent, TellMeWhatToPlayComponent],
   standalone: true,
   providers: [MinutesToHoursPipe],
   templateUrl: './charts-tab.component.html',
   styleUrl: './charts-tab.component.scss'
 })
 export class ChartsTabComponent {
-  @Input() ownedGamesSignal!: WritableSignal<GameModel[]>; // Accept the signal as an input
+  @Input() allGamesSignal!: WritableSignal<GameModel[]>; // Accept the signal as an input
   view = [700, 400];
   active: number = 1;
   twoWeeksData: AdvancedPieChartModel[] = [];
@@ -38,7 +39,7 @@ export class ChartsTabComponent {
   }
   signAllTimeDataEffect() {
     effect(() => {
-      this.allTimeData = this.ownedGamesSignal()
+      this.allTimeData = this.allGamesSignal()
         .filter((game) => game.playtime_forever != null && game.playtime_forever > 0)
         .map((game) => {
           return {
@@ -46,12 +47,11 @@ export class ChartsTabComponent {
             value: this.minutesToHoursPipe.transform(game.playtime_forever),
           } as AdvancedPieChartModel;
         });
-      console.log(this.twoWeeksData);
     });
   }
   signTwoWeeksDataEffect() {
     effect(() => {
-      this.twoWeeksData = this.ownedGamesSignal()
+      this.twoWeeksData = this.allGamesSignal()
         .filter((game) => game.playtime_2weeks != null && game.playtime_2weeks > 0)
         .map((game) => {
           return {
@@ -59,7 +59,6 @@ export class ChartsTabComponent {
             value: this.minutesToHoursPipe.transform(game.playtime_2weeks),
           } as AdvancedPieChartModel;
         });
-      console.log(this.twoWeeksData);
     });
   }
 

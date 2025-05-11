@@ -14,16 +14,21 @@
     margin-bottom: 1rem;
 }
 
-.owned-games-container {
-    overflow-y: auto;
-    height: calc(50vh - 83px - 2rem);
-    min-height: calc(50vh - 83px - 2rem);
-    max-height: calc(50vh - 83px - 2rem);
+.profile-header {
+    height: 40vh;
+    min-height: 40vh;
+    max-height: 40vh;
+    overflow: auto;
 }
 
-.profile-header {
-    height: 50vh;
-    min-height: 50vh;
-    max-height: 50vh;
-    overflow: auto;
+
+.owned-games-container {
+    overflow-y: auto;
+    height: calc(60vh - 83px - 2rem);
+    min-height: calc(60vh - 83px - 2rem);
+    max-height: calc(60vh - 83px - 2rem);
+}
+
+.container {
+    max-width: 1800px;
 }

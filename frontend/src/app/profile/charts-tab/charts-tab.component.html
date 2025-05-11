@@ -12,6 +12,12 @@
                 <app-all-time [data]="allTimeData"></app-all-time>
             </ng-template>
         </li>
+        <li [ngbNavItem]="3" [destroyOnHide]="false">
+            <button ngbNavLink>TMW2Play</button>
+            <ng-template ngbNavContent>
+                <app-tell-me-what-to-play ></app-tell-me-what-to-play>
+            </ng-template>
+        </li>
     </ul>
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
 </div>

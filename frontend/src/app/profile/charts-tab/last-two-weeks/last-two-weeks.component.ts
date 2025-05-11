@@ -11,4 +11,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 })
 export class LastTwoWeeksComponent {
   @Input() data!: AdvancedPieChartModel[];
+
+  teste(data: any): any{
+    return data + 'TESTANDO';
+  }
 }

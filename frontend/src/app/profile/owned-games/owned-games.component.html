@@ -1,7 +1,7 @@
 <div class="row owned-games-container">
     @for (game of ownedGames; track game.appid) {
-    <div class="col col-6 mb-2">
-        <div class="game-card card h-100 gradient-bg-dark border-0">
+    <div class="col col-6 mb-2 card-parent">
+        <div class="game-card card gradient-bg-dark border-0">
             <div class="card-body p-2">
                 <div class="d-flex">
                     <img [src]="getGameImageUrl(game)" [alt]="game.name" class="rounded" width="64" height="64">

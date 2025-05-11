@@ -28,6 +28,7 @@ namespace TMW2Play.Api
             //    .UseLowerCaseNamingConvention()
             //    );
             services.AddSteam();
+            services.AddAIApi();
             services.AddSteamKey(Configuration);
             services.AddServices();
         }

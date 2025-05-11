@@ -6,23 +6,22 @@
         </div>
         <div class="col col-9">
             <h6>Welcome, we are pleasured to have you here!</h6>
-            <h2 class="display-5">Thisgraça <span class="fs-4">(Mochila)</span>
+            <h2 class="display-5">{{playerSummary?.personaname }}<span class="fs-4">({{playerSummary?.realname}})</span>
                 <img [src]="'https://steamcommunity-a.akamaihd.net/public/images/countryflags/' + (playerSummary?.loccountrycode | lowercase)  +'.gif'"
                     class="country-flag" alt="Country Flag" priority>
             </h2>
-
             <div class="mb-3">
                 <a [href]="playerSummary?.profileurl" class="btn btn-primary btn-sm" target="_blank">
                     View Steam Profile
                 </a>
             </div>
-
         </div>
         <div class="row">
             <div class="col col-12">
                 <div class="form-check form-switch" data-bs-theme="dark">
-                    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-                    <label class="form-check-label" for="switchCheckDefault">Hide never played</label>
+                    <input class="form-check-input" type="checkbox" role="switch" id="switch-never-played"
+                        [(ngModel)]="switchNeverPlayed" (change)="hideNeverPlayed.emit(switchNeverPlayed)">
+                    <label class="form-check-label" for="switch-never-played">Hide never played</label>
                 </div>
             </div>
         </div>

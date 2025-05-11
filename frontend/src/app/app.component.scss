@@ -8,8 +8,8 @@ html, body {
     flex-direction: column; /* Stack children vertically */
   }
   
-  .container.router {
-    flex: 1; /* Push the footer to the bottom by taking up remaining space */
+  .container.container-content{
+    height: calc(100vh - 83.6px) ;
   }
   
   footer {

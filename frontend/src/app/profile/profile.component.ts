@@ -10,7 +10,7 @@ import { LastPlayedPipe } from '../shared/pipes/last-played.pipe';
 import { PlayTimePipe } from '../shared/pipes/play-time.pipe';
 import { ChartsTabComponent } from './charts-tab/charts-tab.component';
 
-const imports = [SummaryHeaderComponent, OwnedGamesComponent, LastPlayedPipe, PlayTimePipe, ChartsTabComponent]
+const imports = [SummaryHeaderComponent, OwnedGamesComponent, ChartsTabComponent]
 @Component({
   selector: 'app-profile',
   imports: [imports],
@@ -23,6 +23,7 @@ export class ProfileComponent implements AfterViewInit {
   steamUser: string | null = null;
   ownedGamesSignal: WritableSignal<GameModel[]> = signal([]);
   playerSummary!: PlayerModel;
+  allGamesSignal: WritableSignal<GameModel[]> = signal([]);
 
   constructor(private ac: ActivatedRoute,
     private router: Router,
@@ -37,7 +38,14 @@ export class ProfileComponent implements AfterViewInit {
     }
   }
 
-  private async loadProfile(steamUser: string) {
+  public onHideNeverPlayed(hideNeverPlayed: boolean): void {
+    if (hideNeverPlayed) {
+      return this.ownedGamesSignal.set(this.allGamesSignal().filter(game => game.playtime_forever > 0));
+    }
+    this.ownedGamesSignal.set(this.allGamesSignal().filter(game => game.playtime_forever === 0));
+  }
+
+  private async loadProfile(steamUser: string): Promise<void> {
     this.sharedService.getUserId(steamUser)
       .pipe(
         take(1),
@@ -48,11 +56,11 @@ export class ProfileComponent implements AfterViewInit {
           ]);
         })).subscribe(([playerSummary, ownedGames]) => {
           setTimeout(() => {
+            this.allGamesSignal.set(ownedGames);
             this.playerSummary = playerSummary;
             this.ownedGamesSignal.set(ownedGames); // Update the signal
           }, 1000);
         });
   }
-
 
 }
