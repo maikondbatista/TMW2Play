@@ -13,6 +13,6 @@ export class LastTwoWeeksComponent {
   @Input() data!: AdvancedPieChartModel[];
 
   teste(data: any): any{
-    return data + 'TESTANDO';
+    return data;
   }
 }

@@ -1,13 +1,13 @@
 <div class="py-2">
     <div class="row summary-charts">
         <!-- Profile Header -->
-        <app-summary-header class="col-7 main-gradient" [playerSummary]="playerSummary" (hideNeverPlayed)="onHideNeverPlayed($event)"></app-summary-header>
+        <app-summary-header class="col-7 main-gradient" [playerSummary]="signalService.playerSummarySignal()" (hideNeverPlayed)="onHideNeverPlayed($event)"></app-summary-header>
         <!-- Profile Header -->
-        <app-charts-tab [allGamesSignal]="allGamesSignal" class="col-5 main-gradient"></app-charts-tab>
+        <app-charts-tab class="col-5 main-gradient"></app-charts-tab>
     </div>
 
     <!-- Recent Activity Placeholder -->
     <div class="col col-12">
-        <app-owned-games [ownedGamesSignal]="ownedGamesSignal"></app-owned-games>
+        <app-owned-games></app-owned-games>
     </div>
 </div>

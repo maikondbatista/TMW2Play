@@ -1,17 +1,18 @@
-﻿using TMW2Play.Domain.Core.Steam;
+﻿using Microsoft.Extensions.Configuration;
+using TMW2Play.Domain.Core.Steam;
 using TMW2Play.Infra.HTTP.Steam;
 
 namespace TMW2Play.Api.Configuration
 {
     public static class SteamConfiguration
     {
-        public static IServiceCollection AddSteam(this IServiceCollection services)
+        public static IServiceCollection AddSteam(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient();
             services.AddScoped<ISteamHttpService, SteamHttpService>();
+            services.AddSteamKey(configuration);
             return services;
         }
-        public static IServiceCollection AddSteamKey(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddSteamKey(this IServiceCollection services, IConfiguration configuration)
         {
             var steamApiKey = configuration["SteamAPIKey"];
             services.AddSingleton(new SteamApiConfiguration(steamApiKey));

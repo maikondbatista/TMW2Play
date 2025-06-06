@@ -1,17 +1,17 @@
 ﻿using TMW2Play.Domain.Core.Gemini;
-using TMW2Play.Infra.HTTP.Steam;
+using TMW2Play.Infra.HTTP.Gemini;
 
 namespace TMW2Play.Api.Configuration
 {
     public static class AIConfiguration
     {
-        public static IServiceCollection AddGeminiAi(this IServiceCollection services)
+        public static IServiceCollection AddGeminiAi(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient();
-            services.AddScoped<IGeminiService, GeminiService>();
+            services.AddScoped<IGeminiHttpService, GeminiHttpService>();
+            services.AddGeminiAiKey(configuration);
             return services;
         }
-        public static IServiceCollection AddGeminiAiKey(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddGeminiAiKey(this IServiceCollection services, IConfiguration configuration)
         {
             var geminiAPIKey = configuration["GeminiAPIKey"];
             services.AddSingleton(new GeminiApiConfiguration(geminiAPIKey));

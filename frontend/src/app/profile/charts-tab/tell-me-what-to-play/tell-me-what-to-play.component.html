@@ -1,0 +1,49 @@
+<div class="recommendations-container">
+    <h1 class="hype-header">
+        🎮 <span class="glitch-text">GAME RECOMMENDATIONS</span> 👾
+    </h1>
+    @if(!loading && TMW2Play && TMW2Play.length > 0) {
+    <div class="game-grid">
+        @for(game of TMW2Play; track game.name){
+        <div [class.wildcard]="game.isWildcard" class="game-card">
+
+            <!-- Genres as tags -->
+            <div class="genre-tags">
+                @for(genre of game.genres; track genre)
+                {
+                <span class="tag">{{ genre }}</span>
+                }
+            </div>
+
+            <!-- Game title + reference -->
+            <h2 class="game-title">
+                #{{ game.id }}. {{ game.name }}
+                <span *ngIf="game.isWildcard" class="wildcard-badge">WILDCARD</span>
+            </h2>
+            <p class="reference-game">For fans of: <strong>{{ game.referenceGame }}</strong></p>
+
+            <!-- Pitch/Why/Score -->
+            <div class="game-details">
+                <p><span class="label">Pitch:</span> {{ game.pitch }}</p>
+                <p><span class="label">Why?</span> {{ game.why }}</p>
+                <p class="score">{{ game.score }}</p>
+            </div>
+        </div>
+        }
+    </div>
+    } @else if(!loading) {
+    <div class="no-recommendations">
+        <h2>No recommendations available</h2>
+        <p>It seems like we hit a glitch and can't find any games to recommend at the moment. Please check back later!</p>
+        <p>We are sorry you are seeing this </p>
+        <p>Happy gaming!</p>
+    </div>
+    }
+    @else {
+    <div class="loading-spinner">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    }
+</div>

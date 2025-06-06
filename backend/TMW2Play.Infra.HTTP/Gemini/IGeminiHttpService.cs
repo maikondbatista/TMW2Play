@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMW2Play.Domain.Entities.Steam;
+﻿using TMW2Play.Domain.Entities.Gemini.JsonPrompt;
+using TMW2Play.Domain.Entities.Gemini.Response;
 
 namespace TMW2Play.Infra.HTTP.Gemini
 {
-    public interface ISteamHttpService
+    public interface IGeminiHttpService
     {
-        Task<SteamApiResponse<SteamUserResponse>> GetSteamUserId(string username, CancellationToken cancellationToken = default);
+        Task<Part?> UserResume(List<string> GamesWPlayTime, string language, CancellationToken cancellationToken = default);
+        Task<List<GameRecommendation>> TellMeWhatToPlay(List<string> GamesWPlayTime, List<string> allGames, string language, CancellationToken cancellationToken = default);
     }
 }

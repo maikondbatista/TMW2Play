@@ -1,22 +1,24 @@
-import { Component, effect, Input, signal, WritableSignal } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { GameModel } from '../../shared/models/steam/owned-games.motel';
 import { AdvancedPieChartModel } from '../../shared/models/charts/advanced-pie-chart.model';
 import { MinutesToHoursPipe } from '../../shared/pipes/minutes-to-hours.pipe';
 import { LastTwoWeeksComponent } from "./last-two-weeks/last-two-weeks.component";
 import { AllTimeComponent } from './all-time/all-time.component';
 import { TellMeWhatToPlayComponent } from './tell-me-what-to-play/tell-me-what-to-play.component';
+import { HumiliateMyLibraryComponent } from "./humiliate-my-library/humiliate-my-library.component";
+import { TwoWeeksFilter } from '../../shared/constants/filters/two-weeks.filter';
+import { SignalService } from '../../shared/services/signal.service';
+const imports = [NgbNavModule, NgbAlertModule, LastTwoWeeksComponent, AllTimeComponent,
+  TellMeWhatToPlayComponent, HumiliateMyLibraryComponent, HumiliateMyLibraryComponent];
 @Component({
   selector: 'app-charts-tab',
-  imports: [NgbNavModule, NgbAlertModule, LastTwoWeeksComponent, AllTimeComponent, TellMeWhatToPlayComponent],
+  imports: [imports],
   standalone: true,
   providers: [MinutesToHoursPipe],
   templateUrl: './charts-tab.component.html',
   styleUrl: './charts-tab.component.scss'
 })
 export class ChartsTabComponent {
-  @Input() allGamesSignal!: WritableSignal<GameModel[]>; // Accept the signal as an input
   view = [700, 400];
   active: number = 1;
   twoWeeksData: AdvancedPieChartModel[] = [];
@@ -25,21 +27,23 @@ export class ChartsTabComponent {
   showLegend: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
-
+  tmw2PlayLoaded: boolean = false;
+  
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  constructor(private minutesToHoursPipe: MinutesToHoursPipe) {
+  constructor(private minutesToHoursPipe: MinutesToHoursPipe, private signalService: SignalService) {
     this.signToChartEffects();
   }
   signToChartEffects() {
     this.signTwoWeeksDataEffect();
     this.signAllTimeDataEffect();
   }
+
   signAllTimeDataEffect() {
     effect(() => {
-      this.allTimeData = this.allGamesSignal()
+      this.allTimeData = this.signalService.allGamesSignal()
         .filter((game) => game.playtime_forever != null && game.playtime_forever > 0)
         .map((game) => {
           return {
@@ -51,12 +55,12 @@ export class ChartsTabComponent {
   }
   signTwoWeeksDataEffect() {
     effect(() => {
-      this.twoWeeksData = this.allGamesSignal()
-        .filter((game) => game.playtime_2weeks != null && game.playtime_2weeks > 0)
+      this.twoWeeksData = this.signalService.allGamesSignal()
+        .filter(TwoWeeksFilter.filter)
         .map((game) => {
           return {
-            name: game.name,
-            value: this.minutesToHoursPipe.transform(game.playtime_2weeks),
+        name: game.name,
+        value: this.minutesToHoursPipe.transform(game.playtime_2weeks),
           } as AdvancedPieChartModel;
         });
     });

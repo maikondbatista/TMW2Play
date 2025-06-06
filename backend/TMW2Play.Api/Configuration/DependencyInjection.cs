@@ -1,4 +1,4 @@
-﻿using TMW2Play.Infra.HTTP.Steam;
+﻿using TMW2Play.Service.Services.Notification;
 
 namespace TMW2Play.Api.Configuration
 {
@@ -6,7 +6,8 @@ namespace TMW2Play.Api.Configuration
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<ISteamHttpService, SteamHttpService>();
+            services.AddHttpClient();
+            services.AddScoped<INotificationService, NotificationService>();
             return services;
         }
     }

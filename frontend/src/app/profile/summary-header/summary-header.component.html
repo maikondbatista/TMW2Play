@@ -1,17 +1,19 @@
 <div class="profile-header gradient-bg-dark p-2">
     <div class="row align-items-center m-2">
         <div class="col col-3 text-center">
-            <img [src]="playerSummary?.avatarfull" class="profile-pic img-fluid rounded-circle mb-3"
+            <img [src]="playerSummary.avatarfull" class="profile-pic img-fluid rounded-circle mb-3"
                 alt="Profile Picture">
         </div>
         <div class="col col-9">
             <h6>Welcome, we are pleasured to have you here!</h6>
-            <h2 class="display-5">{{playerSummary?.personaname }}<span class="fs-4">({{playerSummary?.realname}})</span>
+            @if(playerSummary?.loccountrycode){
+            <h2 class="display-5">{{playerSummary.personaname }}<span class="fs-4">({{playerSummary?.realname}})</span>
                 <img [src]="'https://steamcommunity-a.akamaihd.net/public/images/countryflags/' + (playerSummary?.loccountrycode | lowercase)  +'.gif'"
                     class="country-flag" alt="Country Flag" priority>
             </h2>
+            }
             <div class="mb-3">
-                <a [href]="playerSummary?.profileurl" class="btn btn-primary btn-sm" target="_blank">
+                <a [href]="playerSummary.profileurl" class="btn btn-primary btn-sm" target="_blank">
                     View Steam Profile
                 </a>
             </div>

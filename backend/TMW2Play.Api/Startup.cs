@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using TMW2Play.Api.Configuration;
 using TMW2Play.Infra;
@@ -17,19 +18,13 @@ namespace TMW2Play.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //services.RegisterDependencyInjection();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TMW2Play API", Version = "v1" });
             });
 
-            //services.AddEntityFrameworkNpgsql().AddDbContext<TMW2PlayContext>(options =>
-            //    options.UseNpgsql(Configuration.GetConnectionString("DbPaciente"))
-            //    .UseLowerCaseNamingConvention()
-            //    );
-            services.AddSteam();
-            services.AddAIApi();
-            services.AddSteamKey(Configuration);
+            services.AddSteam(Configuration);
+            services.AddGeminiAi(Configuration);
             services.AddServices();
         }
 
@@ -60,8 +55,6 @@ namespace TMW2Play.Api
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
-
-            //app.AddSteam();
 
             app.UseEndpoints(endpoints =>
             {
