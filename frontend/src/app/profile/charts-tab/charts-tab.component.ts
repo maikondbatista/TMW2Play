@@ -1,13 +1,13 @@
 import { Component, effect } from '@angular/core';
 import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { TwoWeeksFilter } from '../../shared/constants/filters/two-weeks.filter';
 import { AdvancedPieChartModel } from '../../shared/models/charts/advanced-pie-chart.model';
 import { MinutesToHoursPipe } from '../../shared/pipes/minutes-to-hours.pipe';
-import { LastTwoWeeksComponent } from "./last-two-weeks/last-two-weeks.component";
-import { AllTimeComponent } from './all-time/all-time.component';
-import { TellMeWhatToPlayComponent } from './tell-me-what-to-play/tell-me-what-to-play.component';
-import { HumiliateMyLibraryComponent } from "./humiliate-my-library/humiliate-my-library.component";
-import { TwoWeeksFilter } from '../../shared/constants/filters/two-weeks.filter';
 import { SignalService } from '../../shared/services/signal.service';
+import { AllTimeComponent } from './all-time/all-time.component';
+import { HumiliateMyLibraryComponent } from "./humiliate-my-library/humiliate-my-library.component";
+import { LastTwoWeeksComponent } from "./last-two-weeks/last-two-weeks.component";
+import { TellMeWhatToPlayComponent } from './tell-me-what-to-play/tell-me-what-to-play.component';
 const imports = [NgbNavModule, NgbAlertModule, LastTwoWeeksComponent, AllTimeComponent,
   TellMeWhatToPlayComponent, HumiliateMyLibraryComponent, HumiliateMyLibraryComponent];
 @Component({
@@ -64,18 +64,5 @@ export class ChartsTabComponent {
           } as AdvancedPieChartModel;
         });
     });
-  }
-
-
-  onSelect(data: any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
-
-  onActivate(data: any): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data: any): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 }

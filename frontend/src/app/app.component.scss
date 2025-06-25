@@ -1,6 +1,5 @@
-html, body {
-    height: 100%; /* Ensure the body takes up the full height of the viewport */
-    margin: 0; /* Remove default margin */
+html, body{
+    height: 100%  ; /* Ensure the body takes up the full height of the viewport */
   }
   
   body {
@@ -8,14 +7,9 @@ html, body {
     flex-direction: column; /* Stack children vertically */
   }
   
-  .container.container-content{
-    height: calc(100vh - 83.6px) ;
-  }
-  
   footer {
     /* Optional: Add styling for the footer */
     background-color: #f8f9fa;
-    padding: .3rem;
   }
 
 .text-body-white{

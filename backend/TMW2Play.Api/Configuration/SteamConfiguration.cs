@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using TMW2Play.Domain.Core.Steam;
+﻿using TMW2Play.Domain.Core.Steam;
 using TMW2Play.Infra.HTTP.Steam;
 
 namespace TMW2Play.Api.Configuration

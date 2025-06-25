@@ -3,7 +3,7 @@
     public class OwnedGamesResponse : SteamEntity
     {
         public int game_count { get; set; }
-        public List<OwnedGameResponse> games { get; set; }
+        public IEnumerable<OwnedGameResponse> games { get; set; }
     }
     public class OwnedGameResponse
     {
@@ -17,7 +17,7 @@
         public int playtime_linux_forever { get; set; }
         public int playtime_deck_forever { get; set; }
         public int rtime_last_played { get; set; }
-        public List<int> content_descriptorids { get; set; }
+        public IEnumerable<int> content_descriptorids { get; set; }
         public int playtime_disconnected { get; set; }
     }
 }

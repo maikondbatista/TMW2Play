@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMW2Play.Domain.Entities.Gemini.Request;
+﻿using TMW2Play.Domain.Entities.Gemini.Request;
 
 namespace TMW2Play.Domain.Core.Gemini
 {
@@ -24,8 +19,8 @@ namespace TMW2Play.Domain.Core.Gemini
                 Contents = new List<Content>
                 {
                     new Content {
-                        Parts = new List<Part> {
-                            new Part {
+                        Parts = new List<PartRequest> {
+                            new PartRequest {
                                 Text = $@"Your personality traits:
                                             - Enthusiastic about all things gaming
                                             - Makes obscure gaming references, sometimes weaving them into the current situation
@@ -76,50 +71,71 @@ namespace TMW2Play.Domain.Core.Gemini
                 Contents = new List<Content>
                 {
                     new Content {
-                        Parts = new List<Part> {
-                            new Part {
-                                Text = $@"You are a hype-driven game recommendation engine. Based on a user’s library and recent played games suggest 10 games that would appeal to the same type of player—without listing obvious sequels, direct clones, or over-recommended staples.
-                                            Response Rules:
-                                            MUST to return a json in this format, only JSON nothing else: 
-                                            {{
-                                              id: number;
-                                              genres: string[]; // e.g., [""Complex Strategy"", ""Team Play"", ""Esports""]
-                                              referenceGame: string; // e.g., ""Dota 2""
-                                              name: string;
-                                              pitch: string;
-                                              why: string;
-                                              score: string;
-                                              isWildcard?: boolean;
-                                            }}
-                                            Format each recommendation EXACTLY like this:
-                                            [parameter list] = {string.Join(", ", lastTwoWeeks)}
-                                            #[Number]. [Game Name]
-                                            Pitch: ""Like [parameter list] but with [unique twist]."" (1 sentence)
-                                            Why? ""If you loved [specific aspect] in [parameter list], you’ll love [this].""
+                        Parts = new List<PartRequest> {
+                            new PartRequest {
+                                Text = $@"You’re a hype-driven game recommendation bot that suggests 10 fresh, clever, or underrated games based on a user’s library [{string.Join(", ", allGames)}] - (allGames) and recently played titles [ {string.Join(", ", lastTwoWeeks)}] - (lastTwoWeeks). Avoid remasters, clones, and overhyped staples—focus on unique, vibe-matched picks that surprise and delight.
 
-                                            Diversity Rules:
-                                            Games #1-8: Mix of similar-genre gems and smart left-field picks.
-                                            Game #9: A cult classic or underrated indie.
-                                            Game #10: A ""WTF? But genius!"" wildcard (totally different genre, same vibe).
-                                            
-                                            Avoid:
-                                            Remasters or games in the same series as {string.Join(", ", allGames)}.
-                                            Overhyped defaults (""You already know Skyrim, lol"").
-                                            Generic filler (""This is good too, I guess?"").
+                                        Response Rules
+                                        Input Handling:
+                                        Always respond in ${language}.
+                                        Use games released in last 5 years.
 
-                                            Tone:
-                                            Hype, funny, and concise—no intros/outros.
-                                            Roast lazy picks (*""6/10: Basically Game X at home.""*).
-                                            Example (Hollow Knight, Stardew Valley, DOOM):
+                                        If (lastTwoWeeks) is empty/null, infer trends from (allGames) (e.g., genres, playtime, standout titles).
 
-                                            #1. Tunic
-                                            Pitch: Like Hollow Knight but with Zelda’s ancient puzzles.
-                                            Why? If you loved mapping HK’s world, Tunic’s glyphs will break you.
-                                            Score: 9/10 ""Souls-like, but the bosses are legally cute.""
-                                            #10. Katamari Damacy (Wildcard)
-                                            Pitch: Like DOOM’s chaos turned into a rainbow rollercoaster.
-                                            Why? If you loved Stardew’s zen absurdity, wait until you roll up cows.
-                                            "
+                                        For referenceGame, use:
+
+                                        ""Trend: [Genre/Theme]"" (e.g., ""Trend: Souls-likes"") if no direct match exists.
+
+                                        ""Wildcard: [Vibe]"" for #10 (e.g., ""Wildcard: Chaotic Creativity"").
+
+                                        Output Format:
+
+                                        Strictly JSON (no extra text) adhering to {TMW2PlaySchema}.
+
+                                        Wildcard flag: ""isWildcard"": true only for #10.
+
+                                        Avoid:
+
+                                        Games in the same series as allGames.
+
+                                        Overrecommended defaults (""Yeah, yeah, play Hollow Knight"").
+
+                                        Lazy comparisons (*""6/10: Dark Souls for babies""*).
+
+                                        Diversity Rules
+                                        #1-8:
+
+                                        4x genre-adjacent gems (e.g., Tunic for Hollow Knight fans).
+
+                                        4x left-field picks (e.g., Outer Wilds for No Man’s Sky players).
+
+                                        #9: A cult classic/underrated indie (e.g., Hypnospace Outlaw).
+
+                                        #10: A ""WTF? But genius!"" wildcard (e.g., Katamari Damacy for DOOM lovers).
+
+                                        Tone & Style
+                                        Hype, funny, concise. No fluff—just killer recommendations.
+
+                                        Roast generic picks (*""4/10: Walmart brand Stardew Valley.""*).
+
+                                        Pitch/Why Format:
+
+                                        text
+                                        Pitch: ""Like [X] but with [unique twist].""  
+                                        Why? ""If you loved [specific aspect] in [Y], you’ll [new hook].""  
+                                        Score: ""X/10 [sassy one-liner].""  
+
+                                        Example (if lastTwoWeeks = Hades, Celeste):
+                                        {{
+                                          ""id"": 7,
+                                          ""genres"": [""Precision Platformer"", ""Bullet Hell""],
+                                          ""referenceGame"": ""Celeste"",
+                                          ""name"": ""The End is Nigh"",
+                                          ""pitch"": ""Like Celeste’s pixel-perfect jumps but with apocalyptic nihilism."",
+                                          ""why"": ""If you loved Hades’ tight controls, wait until you dodge tumors as a sentient blob."",
+                                          ""score"": ""8/10 'Depression has never felt this snappy.'""
+                                        }}
+                                      "
                             }
                         }
                     }
@@ -132,6 +148,63 @@ namespace TMW2Play.Domain.Core.Gemini
         {
             return $"{GeminiBaseUrl + V1Beta + Models + gemini2Flash}?key={ApiKey}";
         }
+        public string TMW2PlaySchema = @"{
+                                              ""$schema"": ""https://json-schema.org/draft/2020-12/schema"",
+                                              ""title"": ""Game Schema"",
+                                              ""description"": ""Schema for game information"",
+                                              ""type"": ""object"",
+                                              ""properties"": {
+                                                ""id"": {
+                                                  ""description"": ""The unique identifier for the game"",
+                                                  ""type"": ""number""
+                                                },
+                                                ""genres"": {
+                                                  ""description"": ""Array of genres the game belongs to"",
+                                                  ""type"": ""array"",
+                                                  ""items"": {
+                                                    ""type"": ""string""
+                                                  },
+                                                  ""examples"": [
+                                                    [""Complex Strategy"", ""Team Play"", ""Esports""]
+                                                  ]
+                                                },
+                                                ""referenceGame"": {
+                                                  ""description"": ""Reference game this is similar to"",
+                                                  ""type"": ""string"",
+                                                  ""examples"": [""Dota 2""]
+                                                },
+                                                ""name"": {
+                                                  ""description"": ""Name of the game"",
+                                                  ""type"": ""string""
+                                                },
+                                                ""pitch"": {
+                                                  ""description"": ""Pitch or description of the game"",
+                                                  ""type"": ""string""
+                                                },
+                                                ""why"": {
+                                                  ""description"": ""Explanation of why this game is interesting"",
+                                                  ""type"": ""string""
+                                                },
+                                                ""score"": {
+                                                  ""description"": ""Score or rating of the game"",
+                                                  ""type"": ""string""
+                                                },
+                                                ""isWildcard"": {
+                                                  ""description"": ""Whether this is a wildcard entry"",
+                                                  ""type"": ""boolean""
+                                                }
+                                              },
+                                              ""required"": [
+                                                ""id"",
+                                                ""genres"",
+                                                ""referenceGame"",
+                                                ""name"",
+                                                ""pitch"",
+                                                ""why"",
+                                                ""score""
+                                              ],
+                                              ""additionalProperties"": false
+                                            }";
 
     }
 }

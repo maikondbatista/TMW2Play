@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TMW2Play.Infra.HTTP\TMW2Play.Infra.HTTP.csproj" />
+    <PackageReference Include="JsonSchema.Net" Version="7.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TMW2Play.Infra\TMW2Play.Infra.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PlayerModel } from '../../shared/models/steam/player-summary.model';
 import { LowerCasePipe } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PlayerModel } from '../../shared/models/steam/player-summary.model';
 
 @Component({
   selector: 'app-summary-header',

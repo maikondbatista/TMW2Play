@@ -6,13 +6,13 @@
     }
     public class Content
     {
-        public List<Part> Parts { get; set; }
+        public List<PartResponse> Parts { get; set; }
     }
-    public class Part
+    public class PartResponse
     {
         public string Text { get; set; }
     }
-    
+
     public class GeminiApiResponse
     {
         public List<Candidate> Candidates { get; set; }

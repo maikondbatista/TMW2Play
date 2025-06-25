@@ -14,7 +14,7 @@ export interface PlayerModel {
 	primaryclanid: string;
 	timecreated: number;
 	personastateflags: number;
-	loccountrycode: string;
+	loccountrycode?: string | null;
 }
 
 export interface PlayerSummaryModel {

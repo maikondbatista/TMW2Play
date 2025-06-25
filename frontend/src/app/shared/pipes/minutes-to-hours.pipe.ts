@@ -5,6 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MinutesToHoursPipe implements PipeTransform {
   transform(minutes: number): number {
-    return minutes / 60;
+    const hours = minutes / 60;
+    if (hours >= 10) {
+      return Math.round(hours);
+    } else {
+      return Math.round(hours * 10) / 10;
+    }
   }
 }

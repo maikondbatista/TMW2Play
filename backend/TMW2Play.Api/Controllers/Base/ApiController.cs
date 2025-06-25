@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using TMW2Play.Service.Services.Notification;
+using TMW2Play.Service.Domain.Services;
 
 namespace TMW2Play.Api.Controllers.Base
 {

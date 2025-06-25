@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TMW2Play.Api.Controllers.Base;
 using TMW2Play.Infra.HTTP.Steam;
-using TMW2Play.Service.Services.Notification;
-
+using TMW2Play.Service.Domain.Services;
 namespace TMW2Play.Controllers
 {
     [ApiController]

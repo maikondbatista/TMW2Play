@@ -7,10 +7,10 @@
 
     public class Content
     {
-        public List<Part> Parts { get; set; }
+        public List<PartRequest> Parts { get; set; }
     }
 
-    public class Part
+    public class PartRequest
     {
         public string Text { get; set; }
     }

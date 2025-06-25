@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using TMW2Play.Api.Configuration;
-using TMW2Play.Infra;
 
 namespace TMW2Play.Api
 {
@@ -26,6 +23,7 @@ namespace TMW2Play.Api
             services.AddSteam(Configuration);
             services.AddGeminiAi(Configuration);
             services.AddServices();
+            services.AddHybridCache();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

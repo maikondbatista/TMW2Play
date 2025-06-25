@@ -1,24 +1,26 @@
 <div class="profile-header gradient-bg-dark p-2">
+    <div class="col col-md-9 col-sm-12 text-center mb-2">
+        <h6>Welcome, we are pleasured to have you here!</h6>
+    </div>
     <div class="row align-items-center m-2">
-        <div class="col col-3 text-center">
+        <div class="col col-md-3 col-sm-6 text-center">
             <img [src]="playerSummary.avatarfull" class="profile-pic img-fluid rounded-circle mb-3"
-                alt="Profile Picture">
+                alt="Profile Picture" priority>
         </div>
-        <div class="col col-9">
-            <h6>Welcome, we are pleasured to have you here!</h6>
-            @if(playerSummary?.loccountrycode){
-            <h2 class="display-5">{{playerSummary.personaname }}<span class="fs-4">({{playerSummary?.realname}})</span>
+        <div class="col col-md-9 col-sm-12">
+            <h2 class="display-5">{{playerSummary.personaname }}<span class="fs-4"> ({{playerSummary.realname}})</span>
+                @if(playerSummary?.loccountrycode){
                 <img [src]="'https://steamcommunity-a.akamaihd.net/public/images/countryflags/' + (playerSummary?.loccountrycode | lowercase)  +'.gif'"
                     class="country-flag" alt="Country Flag" priority>
+                }
             </h2>
-            }
             <div class="mb-3">
                 <a [href]="playerSummary.profileurl" class="btn btn-primary btn-sm" target="_blank">
                     View Steam Profile
                 </a>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col col-12">
                 <div class="form-check form-switch" data-bs-theme="dark">
                     <input class="form-check-input" type="checkbox" role="switch" id="switch-never-played"
@@ -26,6 +28,7 @@
                     <label class="form-check-label" for="switch-never-played">Hide never played</label>
                 </div>
             </div>
-        </div>
+        </div> 
+        Maybe re-add later. -->
     </div>
 </div>

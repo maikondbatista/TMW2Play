@@ -2,10 +2,10 @@ import { AfterViewInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, switchMap, take } from 'rxjs';
 import { SharedService } from '../shared/services/shared.service';
-import { SummaryHeaderComponent } from './summary-header/summary-header.component';
-import { OwnedGamesComponent } from './owned-games/owned-games.component';
-import { ChartsTabComponent } from './charts-tab/charts-tab.component';
 import { SignalService } from '../shared/services/signal.service';
+import { ChartsTabComponent } from './charts-tab/charts-tab.component';
+import { OwnedGamesComponent } from './owned-games/owned-games.component';
+import { SummaryHeaderComponent } from './summary-header/summary-header.component';
 
 const imports = [SummaryHeaderComponent, OwnedGamesComponent, ChartsTabComponent]
 @Component({

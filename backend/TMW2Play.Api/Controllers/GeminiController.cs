@@ -2,7 +2,7 @@
 using TMW2Play.Api.Controllers.Base;
 using TMW2Play.Domain.DTO;
 using TMW2Play.Infra.HTTP.Gemini;
-using TMW2Play.Service.Services.Notification;
+using TMW2Play.Service.Domain.Services;
 
 namespace TMW2Play.Api.Controllers
 {

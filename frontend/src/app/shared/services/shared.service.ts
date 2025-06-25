@@ -36,7 +36,6 @@ export class SharedService {
 
     public getUserId(username: string): Observable<string> {
         let cookie = this.cookie.get(username);
-        console.log('cookie', cookie);
         return (cookie
             ? of(JSON.parse(this.cookie.get(username))) //: of(null)
                   : this.http.get<SteamModel<UserModel>>(`${this.apiUrl + this.steamController}steam-user-id/${username}`)
@@ -50,7 +49,6 @@ export class SharedService {
         // return of(SteamMocks.summary).pipe(map((response) => response?.players[0] || null));
         return this.http.get<SteamModel<PlayerSummaryModel>>(`${this.apiUrl + this.steamController}player-summary/${steamId}`)
             .pipe(map((response) => {
-                console.log(response);
                 return response?.response?.players?.[0] || null;
             }));
     }

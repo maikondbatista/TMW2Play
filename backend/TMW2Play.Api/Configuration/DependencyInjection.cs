@@ -1,4 +1,7 @@
-﻿using TMW2Play.Service.Services.Notification;
+﻿using TMW2Play.Domain.Interfaces.Services;
+using TMW2Play.Service.Domain.Services;
+using TMW2Play.Service.Services.Http;
+using TMW2Play.Service.Services.Notification;
 
 namespace TMW2Play.Api.Configuration
 {
@@ -8,6 +11,7 @@ namespace TMW2Play.Api.Configuration
         {
             services.AddHttpClient();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IHttpService, HttpService>();
             return services;
         }
     }

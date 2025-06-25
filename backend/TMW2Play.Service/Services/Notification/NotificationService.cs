@@ -1,4 +1,6 @@
-﻿namespace TMW2Play.Service.Services.Notification
+﻿using TMW2Play.Service.Domain.Services;
+
+namespace TMW2Play.Service.Services.Notification
 {
     public class NotificationService : INotificationService
     {

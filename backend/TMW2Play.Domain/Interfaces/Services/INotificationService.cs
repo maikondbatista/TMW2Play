@@ -1,4 +1,4 @@
-﻿namespace TMW2Play.Service.Services.Notification
+﻿namespace TMW2Play.Service.Domain.Services
 {
     public interface INotificationService
     {
