@@ -1,4 +1,4 @@
-@if(signalService.playerSummarySignal()?.communityvisibilitystate === 3) {
+@if(signalService.playerSummarySignal()?.communityvisibilitystate === 3 && !loading) {
 <div class="py-2">
     <div class="row summary-charts">
         <!-- Profile Header -->
@@ -12,6 +12,12 @@
     <!-- Recent Activity Placeholder -->
     <div class="col col-md-12 col-sm-12">
         <app-owned-games></app-owned-games>
+    </div>
+</div>
+} @else if(loading)
+{
+<div class="loading-spinner">
+    <div class="spinner-border" role="status">
     </div>
 </div>
 } @else {

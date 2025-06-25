@@ -18,7 +18,7 @@ const imports = [SummaryHeaderComponent, OwnedGamesComponent, ChartsTabComponent
 })
 export class ProfileComponent implements AfterViewInit {
   steamUser: string | null = null;
-
+  loading: boolean = true;
   constructor(private ac: ActivatedRoute,
     private router: Router,
     private sharedService: SharedService,
@@ -42,6 +42,7 @@ export class ProfileComponent implements AfterViewInit {
   }
 
   private async loadProfile(steamUser: string): Promise<void> {
+    this.loading = true;
     this.sharedService.getUserId(steamUser)
       .pipe(
         take(1),
@@ -54,6 +55,7 @@ export class ProfileComponent implements AfterViewInit {
           this.signalService.allGamesSignal.set(ownedGames);
           this.signalService.playerSummarySignal.set(playerSummary);
           this.signalService.ownedGamesSignal.set(ownedGames);
+          this.loading = false;
         });
   }
 
