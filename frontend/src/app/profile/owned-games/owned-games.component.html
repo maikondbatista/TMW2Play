@@ -1,6 +1,6 @@
 <div class="row owned-games-container">
     @for (game of ownedGames; track game.appid) {
-    <div class="col col-md-4 col-sm-12 mb-2 card-parent">
+    <div class="col-md-4 col-sm-12 mb-2 card-parent">
         <div class="game-card card gradient-bg-dark border-0">
             <div class="card-body p-2">
                 <div class="d-flex">
@@ -8,8 +8,8 @@
                     <div class="flex-grow-1 ms-3">
                         <h6 class="mb-1 text-truncate">{{ game.name }}</h6>
                         <div class="small">
-                            <div>Last played: {{ game.rtime_last_played | lastPlayed }}</div>
-                            <div>Total playtime: {{ game.playtime_forever | playTime }}</div>
+                            <div>{{ translationPrefix + 'lastPlayed' | transloco }} {{ game.rtime_last_played | lastPlayed }}</div>
+                            <div>{{ translationPrefix + 'totalPlaytime' | transloco }} {{ game.playtime_forever | playTime }}</div>
                         </div>
                     </div>
                 </div>

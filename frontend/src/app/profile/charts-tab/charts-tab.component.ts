@@ -5,11 +5,11 @@ import { AdvancedPieChartModel } from '../../shared/models/charts/advanced-pie-c
 import { MinutesToHoursPipe } from '../../shared/pipes/minutes-to-hours.pipe';
 import { SignalService } from '../../shared/services/signal.service';
 import { AllTimeComponent } from './all-time/all-time.component';
-import { HumiliateMyLibraryComponent } from "./humiliate-my-library/humiliate-my-library.component";
 import { LastTwoWeeksComponent } from "./last-two-weeks/last-two-weeks.component";
 import { TellMeWhatToPlayComponent } from './tell-me-what-to-play/tell-me-what-to-play.component';
+import { TranslocoModule } from '@jsverse/transloco';
 const imports = [NgbNavModule, NgbAlertModule, LastTwoWeeksComponent, AllTimeComponent,
-  TellMeWhatToPlayComponent, HumiliateMyLibraryComponent, HumiliateMyLibraryComponent];
+  TellMeWhatToPlayComponent, TranslocoModule];
 @Component({
   selector: 'app-charts-tab',
   imports: [imports],
@@ -28,7 +28,8 @@ export class ChartsTabComponent {
   showLabels: boolean = true;
   isDoughnut: boolean = false;
   tmw2PlayLoaded: boolean = false;
-  
+  translationPrefix = 'profile.chartsTab.';
+
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
@@ -59,8 +60,8 @@ export class ChartsTabComponent {
         .filter(TwoWeeksFilter.filter)
         .map((game) => {
           return {
-        name: game.name,
-        value: this.minutesToHoursPipe.transform(game.playtime_2weeks),
+            name: game.name,
+            value: this.minutesToHoursPipe.transform(game.playtime_2weeks),
           } as AdvancedPieChartModel;
         });
     });

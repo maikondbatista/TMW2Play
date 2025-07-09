@@ -7,11 +7,22 @@
       </a>
     </div>
     <div class="col col-8 m-auto text-center text-body-white">
-      <i>From gamer to gamers!</i>
+      <i>{{ translationPrefix + 'fromGamerToGamers' | transloco }}</i>
     </div>
     <div class="col col-2 d-flex justify-content-end">
-      <a class="d-lg-inline-block" href="https://github.com/maikondbatista/TMW2Play" target="_blank">
-      <img src="https://cdn.worldvectorlogo.com/logos/github-icon-1.svg" alt="Source code" width="30" height="30" />
+      <!-- language selector -->
+      <div ngbDropdown class="d-inline-block">
+        <button type="button" class="btn btn-outline-primary" ngbDropdownToggle>
+          <img [src]="selectedLanguageImg" [alt]="'language' | transloco">
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem (click)="setLanguage('pt-BR')"><img src="assets/img/pt-BR.png" alt="Português Brasil"></button>
+          <button ngbDropdownItem (click)="setLanguage('en-US')"><img src="assets/img/en-US.png" alt="English US"></button>
+        </div>
+      </div>
+      <!-- github logo -->
+      <a class="d-lg-inline-block" [attr.title]="repoUrl" [href]="repoUrl" target="_blank">
+        <img src="https://cdn.worldvectorlogo.com/logos/github-icon-1.svg" alt="Source code" width="30" height="30" />
       </a>
     </div>
   </div>
@@ -26,7 +37,8 @@
 <footer class="footer fixed-bottom border-top">
   <div class="col-md-12 d-flex">
     <span class="m-auto text-body-secondary">
-      Powered by <a href="https://github.com/maikondbatista" target="_blank">Maikon Delduca</a>
+      {{ translationPrefix + 'poweredBy' | transloco }}
+      <a [href]="gitHubUrl" [title]="gitHubUrl" target="_blank"> Maikon Delduca</a>
     </span>
   </div>
 </footer>

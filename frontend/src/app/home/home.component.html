@@ -1,17 +1,19 @@
-<h3 class="text-center">Welcome to {{ title }}!</h3>
+<h3 class="text-center">{{ 'home.welcome' | transloco: { title: title } }}</h3>
 <div class="row text-center mt-5">
     <label for="input">
-        Enter your <b>Steam </b><a href="http://steamcommunity.com/my" target="_blank">profile</a>, be sure your profile
-        is
-        <a href="https://help.steampowered.com/en/faqs/view/588C-C67D-0251-C276" target="_blank">public</a>!
+        {{ 'home.enterSteam' | transloco }}
+        <b>Steam </b>
+        <a href="http://steamcommunity.com/my" target="_blank">{{ 'home.profile' | transloco }}</a>,
+        {{ 'home.beSure' | transloco }}
+        <a href="https://help.steampowered.com/en/faqs/view/588C-C67D-0251-C276" target="_blank">{{ 'home.public' | transloco }}</a>!
     </label>
 </div>
 <div class="row justify-content-md-center mt-3">
     <div class="col-md-7 col-sm-9">
         <input id="input" class="form-control" type="text" [(ngModel)]="steamUser"
-            placeholder="TheThisgrace or https://steamcommunity.com/id/TheThisgrace" />
+            [placeholder]="'home.profilePlaceholder' | transloco" />
     </div>
     <div class="col-md-1 col-sm-3">
-        <button type="button" class="btn btn-primary w-100" (click)="UserProfile()">Go</button>
+        <button type="button" class="btn btn-primary w-100" (click)="UserProfile()">{{ 'home.go' | transloco }}</button>
     </div>
 </div>

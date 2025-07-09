@@ -1,7 +1,8 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpStatusCode } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { catchError, Observable, retry, throwError, timer } from "rxjs";
+import { ErrorResponse } from "../models/error/error.model";
 
 export const maxRetries = 1;
 export const delayMs = 1000;
@@ -16,10 +17,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         count: maxRetries,
         delay: () => timer(delayMs)
       }),
-      catchError((error: any) => {
-        if (error) {
-          console.log(error);
-          this.toastr.error('An error occurred after multiple attempts.', 'Error');
+      catchError((error: ErrorResponse) => {
+        if (error?.status === HttpStatusCode.BadRequest) {
+          error.error.map((err: string) => this.toastr.error(err, 'Error'));
         }
         return throwError(() => error);
       })

@@ -1,16 +1,15 @@
 @if(signalService.playerSummarySignal()?.communityvisibilitystate === 3 && !loading) {
-<div class="py-2">
+<div class="py-2 tmw2p-container">
     <div class="row summary-charts">
         <!-- Profile Header -->
-        <app-summary-header class="col-md-6 col-sm-12 main-gradient"
+        <app-summary-header class="col-md-6 col-sm-12 mb-3"
             [playerSummary]="signalService.playerSummarySignal()"
             (hideNeverPlayed)="onHideNeverPlayed($event)"></app-summary-header>
         <!-- Profile Header -->
-        <app-charts-tab class="col-md-6 col-sm-12 main-gradient"></app-charts-tab>
+        <app-charts-tab class="col-md-6 col-sm-12 mb-3"></app-charts-tab>
     </div>
-
-    <!-- Recent Activity Placeholder -->
-    <div class="col col-md-12 col-sm-12">
+    <div class="row">
+        <!-- Recent Activity Placeholder -->
         <app-owned-games></app-owned-games>
     </div>
 </div>
@@ -21,7 +20,7 @@
     </div>
 </div>
 } @else {
-<div class="m-2 py-2 alert alert-warning text-center">
-    This profile is not public.
+<div class="m-2 py-2 alert alert-warning text-center tmw2p-container">
+    {{ 'profile.notPublic' | transloco }}
 </div>
 }

@@ -38,8 +38,8 @@ export class SharedService {
         let cookie = this.cookie.get(username);
         return (cookie
             ? of(JSON.parse(this.cookie.get(username))) //: of(null)
-                  : this.http.get<SteamModel<UserModel>>(`${this.apiUrl + this.steamController}steam-user-id/${username}`)
-                .pipe(tap((response) => this.cookie.set(username, JSON.stringify(response), { expires: 1 })))
+            : this.http.get<SteamModel<UserModel>>(`${this.apiUrl + this.steamController}steam-user-id/${username}`)
+                .pipe(tap((response) => this.cookie.set(username, JSON.stringify(response), { expires: 1, sameSite: 'Strict', secure: true })))
         ).pipe(
             map((response) => response?.response?.steamid || null)
         );

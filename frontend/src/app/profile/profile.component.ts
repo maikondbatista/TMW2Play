@@ -6,8 +6,9 @@ import { SignalService } from '../shared/services/signal.service';
 import { ChartsTabComponent } from './charts-tab/charts-tab.component';
 import { OwnedGamesComponent } from './owned-games/owned-games.component';
 import { SummaryHeaderComponent } from './summary-header/summary-header.component';
+import { TranslocoModule } from '@jsverse/transloco';
 
-const imports = [SummaryHeaderComponent, OwnedGamesComponent, ChartsTabComponent]
+const imports = [SummaryHeaderComponent, OwnedGamesComponent, ChartsTabComponent, TranslocoModule]
 @Component({
   selector: 'app-profile',
   imports: [imports],

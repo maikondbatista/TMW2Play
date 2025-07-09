@@ -1,6 +1,6 @@
 <div class="recommendations-container">
     <h1 class="hype-header">
-        🎮 <span class="glitch-text">GAME RECOMMENDATIONS</span> 👾
+        🎮 <span class="glitch-text">{{ translationPrefix + 'gameRecommendations' | transloco}}</span> 👾
     </h1>
     @if(!loading && TMW2Play && TMW2Play.length > 0) {
     <div class="game-grid">
@@ -18,14 +18,14 @@
             <!-- Game title + reference -->
             <h2 class="game-title">
                 #{{ game.id }}. {{ game.name }}
-                <span *ngIf="game.isWildcard" class="wildcard-badge">WILDCARD</span>
+                <span *ngIf="game.isWildcard" class="wildcard-badge">
+                    {{ translationPrefix + 'wildcard' | transloco}}</span>
             </h2>
-            <p class="reference-game">For fans of: <strong>{{ game.referenceGame }}</strong></p>
-
+            <p class="reference-game">{{ translationPrefix + 'forfansOf' | transloco }}<strong>{{ game.referenceGame }}</strong></p>
             <!-- Pitch/Why/Score -->
             <div class="game-details">
-                <p><span class="label">Pitch:</span> {{ game.pitch }}</p>
-                <p><span class="label">Why?</span> {{ game.why }}</p>
+                <p><span class="label">{{ translationPrefix + 'pitch' | transloco }}</span> {{ game.pitch }}</p>
+                <p><span class="label">{{ translationPrefix + 'why' | transloco }}</span> {{ game.why }}</p>
                 <p class="score">{{ game.score }}</p>
             </div>
         </div>
@@ -33,10 +33,10 @@
     </div>
     } @else if(!loading) {
     <div class="no-recommendations">
-        <h2>No recommendations available</h2>
-        <p>It seems like we hit a glitch and can't find any games to recommend at the moment. Please check back later!</p>
-        <p>We are sorry you are seeing this </p>
-        <p>Happy gaming!</p>
+        <h2>{{ translationPrefix + 'noRecommendationsTitle' | transloco }}</h2>
+        <p>{{ translationPrefix + 'noRecommendationsLabel1' | transloco }}</p>
+        <p>{{ translationPrefix + 'noRecommendationsLabel2' | transloco }}</p>
+        <p>{{ translationPrefix + 'noRecommendationsLabel3' | transloco }}</p>
     </div>
     }
     @else {

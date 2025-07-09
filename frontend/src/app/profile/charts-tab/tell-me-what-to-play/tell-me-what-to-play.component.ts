@@ -5,17 +5,19 @@ import { TwoWeeksFilter } from '../../../shared/constants/filters/two-weeks.filt
 import { SignalService } from '../../../shared/services/signal.service';
 import { RecommendationModel } from '../../../shared/models/llm/recommendation.model';
 import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-tell-me-what-to-play',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslocoModule],
   templateUrl: './tell-me-what-to-play.component.html',
   styleUrl: './tell-me-what-to-play.component.scss'
 })
 export class TellMeWhatToPlayComponent {
   TMW2Play: RecommendationModel[] = []
   loading: boolean = false;
-
+  translationPrefix = 'profile.chartsTab.tellMeWhatToPlay.';
+  
   constructor(private sharedService: SharedService, private signalService: SignalService) {
     this.signToEffects();
   }

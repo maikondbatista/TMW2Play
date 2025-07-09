@@ -1,18 +1,18 @@
 <div class="gradient-bg-dark profile-header" data-bs-theme="dark">
     <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs">
-        <li [ngbNavItem]="1" [destroyOnHide]="false" title="Last 2 Weeks">
-            <button ngbNavLink>Last 2 Weeks</button>
+        <li [ngbNavItem]="1" [destroyOnHide]="false" [title]="translationPrefix + 'lastTwoWeeksLabel' | transloco">
+            <button ngbNavLink>{{ translationPrefix + 'lastTwoWeeksLabel' | transloco }}</button>
             <ng-template ngbNavContent>
                 <app-last-two-weeks [data]="twoWeeksData"></app-last-two-weeks>
             </ng-template>
         </li>
-        <li [ngbNavItem]="2" [destroyOnHide]="false" title="All Time">
-            <button ngbNavLink>All Time</button>
+        <li [ngbNavItem]="2" [destroyOnHide]="false" [title]="translationPrefix + 'allTimeLabel' | transloco">
+            <button ngbNavLink>{{ translationPrefix + 'allTimeLabel' | transloco }}</button>
             <ng-template ngbNavContent>
                 <app-all-time [data]="allTimeData"></app-all-time>
             </ng-template>
         </li>
-        <li [ngbNavItem]="3" [destroyOnHide]="false" title="Tell Me What to Play">
+        <li [ngbNavItem]="3" [destroyOnHide]="false" [title]="translationPrefix + 'tellMeWhatToPlayLabel' | transloco">
             <button ngbNavLink (click)="tmw2PlayLoaded = true">TMW2Play</button>
             <ng-template ngbNavContent>
                 @if(tmw2PlayLoaded){
@@ -22,8 +22,8 @@
                 }
             </ng-template>
         </li>
-        <!-- <li [ngbNavItem]="4" [destroyOnHide]="true" title="Humiliate My Library">
-            <button ngbNavLink>HMLibrary</button>
+        <!-- <li [ngbNavItem]="4" [destroyOnHide]="true" [title]="'humiliateMyLibrary' | transloco">
+            <button ngbNavLink>{{ translationPrefix + 'hmLibraryLabel' | transloco }}</button>
             <ng-template ngbNavContent>
                 <app-humiliate-my-library></app-humiliate-my-library>
             </ng-template>

@@ -1,0 +1,70 @@
+{
+    "home": {
+        "welcome": "Welcome to {{title}}!",
+        "enterSteam": "Enter your",
+        "profile": "profile",
+        "beSure": "be sure your profile is",
+        "public": "public",
+        "profilePlaceholder": "TheThisgrace or https://steamcommunity.com/id/TheThisgrace",
+        "go": "Go"
+    },
+    "profile": {
+        "notPublic": "This profile is not public.",
+        "chartsTab": {
+            "lastTwoWeeksLabel": "Last 2 Weeks",
+            "allTimeLabel": "All Time",
+            "tellMeWhatToPlayLabel": "Tell Me What To Play",
+            "allTime": {
+                "playTimeHours": "Playtime (hours)"
+            },
+            "lastTwoWeeks": {
+                "playTimeHours": "Playtime (hours)"
+            },
+            "tellMeWhatToPlay": {
+                "gameRecommendations": "GAME RECOMMENDATIONS",
+                "wildcard": "WILDCARD",
+                "forfansOf": "For fans of: ",
+                "pitch": "Pitch: ",
+                "why": "Why? ",
+                "noRecommendationsTitle": "No recommendations available.",
+                "noRecommendationsLabel1": "It seems like we hit a glitch and can't find any games to recommend at the moment. Please check back later!",
+                "noRecommendationsLabel2": "I am sorry you are seeing this! Try again in a few minutes.",
+                "noRecommendationsLabel3": "Happy gaming!"
+            },
+            "humiliateMyLibrary": {
+                "title": "Humiliate My Library",
+                "description": "This feature will analyze your library and... try guess. Are you ready to face the truth?"
+            }
+        },
+        "ownedGames": {
+            "lastPlayed": "Last played: ",
+            "totalPlaytime": "Total playtime: "
+        },
+        "summaryHeader": {
+            "welcomeMessage": "Welcome, we are pleasured to have you here!",
+            "profilePicture": "Profile Picture",
+            "countryFlag": "Country Flag",
+            "viewSteamProfile": "View Steam Profile"
+        }
+    },
+    "app": {
+        "fromGamerToGamers": "From gamer to gamers!",
+        "poweredBy": "Powered by"
+    },
+    "common": {
+        "hour": "hour",
+        "minute": "minute",
+        "loading": "Loading...",
+        "error": "An error occurred. Please try again later.",
+        "noData": "No data available.",
+        "day": "day",
+        "week": "week",
+        "month": "month",
+        "months": "months",
+        "year": "year",
+        "ago": "ago",
+        "justNow": "just now",
+        "neverPlayed": "Never played",
+        "language": "Language"
+    }
+}

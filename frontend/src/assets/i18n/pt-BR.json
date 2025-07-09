@@ -1,0 +1,70 @@
+{
+    "home": {
+        "welcome": "Bem-vindo ao {{title}}!",
+        "enterSteam": "Digite seu",
+        "profile": "perfil",
+        "beSure": "tenha certeza que seu perfil está",
+        "public": "público",
+        "profilePlaceholder": "TheThisgrace ou https://steamcommunity.com/id/TheThisgrace",
+        "go": "Ir"
+    },
+    "profile": {
+        "notPublic": "Seu perfil não é público.",
+        "chartsTab": {
+            "lastTwoWeeksLabel": "Últimas 2 Semanas",
+            "allTimeLabel": "Todo o Tempo",
+            "tellMeWhatToPlayLabel": "Me Diga o Que Jogar",
+            "allTime": {
+                "playTimeHours": "Tempo de jogo (horas)"
+            },
+            "lastTwoWeeks": {
+                "playTimeHours": "Tempo de jogo (horas)"
+            },
+            "tellMeWhatToPlay": {
+                "gameRecommendations": "RECOMENDAÇÃO DE JOGOS",
+                "wildcard": "CURINGA",
+                "forfansOf": "Para fãs de: ",
+                "pitch": "Descrição: ",
+                "why": "Por quê? ",
+                "noRecommendationsTitle": "Nenhuma recomendação disponível.",
+                "noRecommendationsLabel1": "Parece que tivemos um problema e não conseguimos encontrar jogos para recomendar no momento. Por favor, tente novamente mais tarde!",
+                "noRecommendationsLabel2": "Desculpe por isso! Tente novamente em alguns minutos.",
+                "noRecommendationsLabel3": "Boa jogatina!"
+            },
+            "humiliateMyLibrary": {
+                "title": "Humilhe Minha Biblioteca",
+                "description": "Este recurso irá analisar sua biblioteca e... tente adivinhar. Pronto para encarar a verdade?"
+            }
+        },
+        "ownedGames": {
+            "lastPlayed": "Jogado pela última vez: ",
+            "totalPlaytime": "Tempo total: "
+        },
+        "summaryHeader": {
+            "welcomeMessage": "Bem-vindo, é um prazer ter você aqui!",
+            "profilePicture": "Foto de Perfil",
+            "countryFlag": "Bandeira do País",
+            "viewSteamProfile": "Ver Perfil na Steam"
+        }
+    },
+    "app": {
+        "fromGamerToGamers": "De gamer para gamers!",
+        "poweredBy": "Desenvolvido por"
+    },
+    "common": {
+        "hour": "hora",
+        "minute": "minuto",
+        "loading": "Carregando...",
+        "error": "Ocorreu um erro. Tente novamente em breve.",
+        "noData": "Nenhum dado disponível.",
+        "day": "dia",
+        "week": "semana",
+        "month": "mês",
+        "months": "meses",
+        "year": "ano",
+        "ago": "atrás",
+        "justNow": "agora mesmo",
+        "neverPlayed": "Nunca jogado",
+        "language": "Idioma"
+    }
+}

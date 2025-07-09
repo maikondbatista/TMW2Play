@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule],
+  imports: [FormsModule, TranslocoModule],
   standalone: true,
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
