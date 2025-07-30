@@ -1,7 +1,12 @@
-:host ::ng-deep .chart {
-    height: calc(40vh - 50px);
+:host ::ng-deep {
+    .chart {
+        height: calc(40vh - 50px);
+        canvas {
+            margin: auto;
+        }
+    }
 
-    canvas {
-        margin: auto;
+    .no-games-message {
+        padding: 1rem;
     }
 }

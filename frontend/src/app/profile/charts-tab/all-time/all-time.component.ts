@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AdvancedPieChartModel } from '../../../shared/models/charts/advanced-pie-chart.model';
-import { TranslocoModule, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-all-time',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, TranslocoModule],
   standalone: true,
   templateUrl: './all-time.component.html',
   styleUrl: './all-time.component.scss'

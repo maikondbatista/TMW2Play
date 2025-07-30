@@ -113,16 +113,24 @@ namespace TMW2Play.Infra.HTTP.Gemini
                 if (node is JsonArray arr)
                 {
                     jsonArray = arr;
-                    error = null;
+                    error = string.Empty;
                     return true;
                 }
-                jsonArray = null;
-                error = "Expected a JSON array.";
+
+                if (node is JsonObject obj && obj["recommendations"] is JsonArray recommendationsArray)
+                {
+                    jsonArray = recommendationsArray;
+                    error = string.Empty;
+                    return true;
+                }
+
+                jsonArray = new JsonArray();
+                error = "Expected either a JSON array or an object with 'recommendations' array.";
                 return false;
             }
             catch (JsonException ex)
             {
-                jsonArray = null;
+                jsonArray = new JsonArray();
                 error = ex.Message;
                 return false;
             }

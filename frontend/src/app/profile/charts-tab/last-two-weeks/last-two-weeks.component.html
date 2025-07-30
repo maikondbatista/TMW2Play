@@ -1,9 +1,11 @@
-<div class="col-12 chart">
-    @if(data){
-  <canvas baseChart
-    [data]="pieChartData"
-    [type]="pieChartType"
-    [options]="pieChartOptions">
-  </canvas>
-    }
-</div>
+@if(data && data[0].value > 0){
+  <div class="col-12 chart">
+    <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions">
+    </canvas>
+  </div>
+}
+@else {
+  <div class="no-games-message">
+    <p>{{ 'common.noData' | transloco }}</p>
+  </div>
+}

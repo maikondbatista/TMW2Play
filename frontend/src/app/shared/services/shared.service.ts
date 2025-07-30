@@ -8,8 +8,6 @@ import { GameModel, OwnedGamesModel } from '../models/steam/owned-games.motel';
 import { SteamModel } from '../models/steam/steam.model';
 import { RecommendationModel } from '../models/llm/recommendation.model';
 import { PartModel } from '../models/llm/part.model';
-// import { LLMMock } from '../mocks/llm.mock';
-// import { SteamMocks } from '../mocks/steam.mocks';
 import { UserModel } from '../models/steam/user.model';
 
 @Injectable({
@@ -30,7 +28,6 @@ export class SharedService {
     }
 
     tellMeWhatToPlay(lastTwoWeeks: string[], allGames: string[]): Observable<RecommendationModel[]> {
-        //return of(LLMMock.mock);
         return this.http.post<RecommendationModel[]>(`${this.apiUrl + this.geminiController}tell-me-what-to-play`, { lastTwoWeeks, allGames });
     }
 
@@ -46,7 +43,6 @@ export class SharedService {
     }
 
     public playerSummary(steamId: string): Observable<PlayerModel | null> {
-        // return of(SteamMocks.summary).pipe(map((response) => response?.players[0] || null));
         return this.http.get<SteamModel<PlayerSummaryModel>>(`${this.apiUrl + this.steamController}player-summary/${steamId}`)
             .pipe(map((response) => {
                 return response?.response?.players?.[0] || null;
@@ -54,7 +50,6 @@ export class SharedService {
     }
 
     public steamOwnedGames(steamId: string): Observable<GameModel[]> {
-        // return of(SteamMocks.ownedGames).pipe(map((response) => response || null));
         return this.http.get<SteamModel<OwnedGamesModel>>(`${this.apiUrl + this.steamController}owned-games/${steamId}`)
             .pipe(map((response) => response?.response.games || null));;
     }

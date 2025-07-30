@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 

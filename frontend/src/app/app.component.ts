@@ -11,7 +11,6 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Tell me what to play';
   repoUrl = "https://github.com/maikondbatista/TMW2Play";
   gitHubUrl = "https://github.com/maikondbatista";
   translationPrefix = 'app.';

@@ -1,29 +1,33 @@
 <!-- Header -->
-<nav class="navbar bg-body-tertiary" data-bs-theme="dark">
+<nav class="navbar bg-body-tertiary navbar-expand-md" data-bs-theme="dark">
   <div class="container" data-bs-theme="dark">
     <div class="col col-2">
       <a class="navbar-brand" href="#">
         <img src="assets/img/tmw2p.png" alt="Bootstrap" width="50" height="30">
       </a>
     </div>
-    <div class="col col-8 m-auto text-center text-body-white">
+    <div class="col col-6 m-auto text-center text-body-white">
       <i>{{ translationPrefix + 'fromGamerToGamers' | transloco }}</i>
     </div>
-    <div class="col col-2 d-flex justify-content-end">
-      <!-- language selector -->
-      <div ngbDropdown class="d-inline-block">
-        <button type="button" class="btn btn-outline-primary" ngbDropdownToggle>
-          <img [src]="selectedLanguageImg" [alt]="'language' | transloco">
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem (click)="setLanguage('pt-BR')"><img src="assets/img/pt-BR.png" alt="Português Brasil"></button>
-          <button ngbDropdownItem (click)="setLanguage('en-US')"><img src="assets/img/en-US.png" alt="English US"></button>
-        </div>
-      </div>
-      <!-- github logo -->
-      <a class="d-lg-inline-block" [attr.title]="repoUrl" [href]="repoUrl" target="_blank">
-        <img src="https://cdn.worldvectorlogo.com/logos/github-icon-1.svg" alt="Source code" width="30" height="30" />
-      </a>
+    <div class="col col-2 d-flex flex-nowrap" id="navbarContent">
+      <ul class="navbar-nav ms-auto ">
+        <!-- language selector -->
+        <li ngbDropdown display="dynamic" class="nav-item dropdown" placement="bottom-end">
+          <button type="button" class="btn flag" ngbDropdownToggle>
+            <img [src]="selectedLanguageImg" [alt]="'common.language' | transloco">
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="setLanguage('pt-BR')"><img src="assets/img/pt-BR.png" alt="Português Brasil"></button>
+            <button ngbDropdownItem (click)="setLanguage('en-US')"><img src="assets/img/en-US.png" alt="English US"></button>
+          </div>
+        </li>
+        <!-- github logo -->
+        <li display="dynamic" placement="bottom-end" class="nav-item d-lg-inline-block m-auto">
+          <a [attr.title]="repoUrl" [href]="repoUrl" target="_blank">
+            <img src="https://cdn.worldvectorlogo.com/logos/github-icon-1.svg" alt="Source code" width="30" height="30" />
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>

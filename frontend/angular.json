@@ -17,10 +17,6 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-             "outputPath": {
-              "base": "../docs",
-              "browser": ""
-            },
             "index": "src/index.html",
             "polyfills": [
               "zone.js"
@@ -42,18 +38,6 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
               "fileReplacements": [
                 {
                   "replace": "src/app/environments/environment.ts",
@@ -61,6 +45,32 @@
                 }
               ],
               "outputHashing": "all"
+            },
+            "github": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.prod.ts"
+                }
+              ],
+              "outputPath": "../docs",
+              "baseHref": "/TMW2Play/",
+              "optimization": true,
+              "aot": true,
+              "extractLicenses": true,
+              "outputHashing": "all"
+            },
+            "docker": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.docker.ts"
+                }
+              ],
+              "outputPath": "dist",
+              "optimization": true,
+              "aot": true,
+              "extractLicenses": true
             },
             "development": {
               "optimization": false,

@@ -2,18 +2,17 @@ import { Component, Input } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AdvancedPieChartModel } from '../../../shared/models/charts/advanced-pie-chart.model';
-import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-last-two-weeks',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, TranslocoModule],
   standalone: true,
   templateUrl: './last-two-weeks.component.html',
   styleUrl: './last-two-weeks.component.scss'
 })
 export class LastTwoWeeksComponent {
   @Input() data!: AdvancedPieChartModel[];
-
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
     labels: [],
     datasets: [{ data: [] }]

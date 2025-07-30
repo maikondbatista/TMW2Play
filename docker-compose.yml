@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tmw2play-api
+    ports:
+      - "1011:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - tmw2play-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tmw2play-frontend
+    ports:
+      - "1010:80"
+    depends_on:
+      - backend
+    networks:
+      - tmw2play-network
+    restart: unless-stopped
+
+networks:
+  tmw2play-network:
+    driver: bridge
+
+volumes:
+  tmw2play-data:

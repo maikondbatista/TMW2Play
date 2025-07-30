@@ -1,6 +1,6 @@
-import { Component, effect, OnInit } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { SharedService } from '../../../shared/services/shared.service';
-import { last, take } from 'rxjs';
+import { take } from 'rxjs';
 import { TwoWeeksFilter } from '../../../shared/constants/filters/two-weeks.filter';
 import { SignalService } from '../../../shared/services/signal.service';
 import { RecommendationModel } from '../../../shared/models/llm/recommendation.model';

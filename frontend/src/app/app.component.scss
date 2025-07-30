@@ -15,3 +15,24 @@ html, body{
 .text-body-white{
     color: white;
 }
+
+.flag {
+  border-color: transparent;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: row !important; /* Override Bootstrap's column */
+  white-space: nowrap;
+}
+
+/* Optional: Reduce spacing between items */
+.navbar-nav .nav-item {
+  margin-left: 0.5rem;
+}
+
+.dropdown .dropdown-menu.show{
+  width: fit-content;
+  min-width: 0;
+
+}
