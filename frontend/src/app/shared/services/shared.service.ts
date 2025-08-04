@@ -42,7 +42,7 @@ export class SharedService {
         );
     }
 
-    public playerSummary(steamId: string): Observable<PlayerModel | null> {
+    public playerSummary(steamId: string): Observable<PlayerModel> {
         return this.http.get<SteamModel<PlayerSummaryModel>>(`${this.apiUrl + this.steamController}player-summary/${steamId}`)
             .pipe(map((response) => {
                 return response?.response?.players?.[0] || null;

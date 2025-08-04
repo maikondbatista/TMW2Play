@@ -1,6 +1,6 @@
 @if(signalService.playerSummarySignal()?.communityvisibilitystate === 3 && !loading) {
 <div class="py-2 tmw2p-container">
-    <div class="row summary-charts">
+    <div class="row">
         <!-- Profile Header -->
         <app-summary-header class="col-md-6 col-sm-12 mb-3"
             [playerSummary]="signalService.playerSummarySignal()"
@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <!-- Recent Activity Placeholder -->
-        <app-owned-games></app-owned-games>
+        <app-owned-games class="col-md-12 col-sm-12"></app-owned-games>
     </div>
 </div>
 } @else if(loading)

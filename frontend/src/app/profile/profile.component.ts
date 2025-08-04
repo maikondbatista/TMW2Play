@@ -7,6 +7,8 @@ import { ChartsTabComponent } from './charts-tab/charts-tab.component';
 import { OwnedGamesComponent } from './owned-games/owned-games.component';
 import { SummaryHeaderComponent } from './summary-header/summary-header.component';
 import { TranslocoModule } from '@jsverse/transloco';
+import { PlayerModel } from '../shared/models/steam/player-summary.model';
+import { GameModel } from '../shared/models/steam/owned-games.motel';
 
 const imports = [SummaryHeaderComponent, OwnedGamesComponent, ChartsTabComponent, TranslocoModule]
 @Component({
@@ -28,36 +30,54 @@ export class ProfileComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.steamUser = this.ac.snapshot.paramMap.get('steamUser');
-    if (this.steamUser) {
-      this.loadProfile(this.steamUser);
-    } else {
-      // this.router.navigate(['Home']);
+    const type = this.ac.snapshot.queryParamMap.get('type');
+
+    if (!this.steamUser) {
+      this.router.navigate(['Home']);
+      return;
     }
+
+    type === 'id'
+      ? this.loadProfileById(this.steamUser)
+      : this.loadProfile(this.steamUser);
   }
 
-  public onHideNeverPlayed(hideNeverPlayed: boolean): void {
-    if (hideNeverPlayed) {
-      return this.signalService.ownedGamesSignal.set(this.signalService.allGamesSignal().filter(game => game.playtime_forever > 0));
-    }
-    this.signalService.ownedGamesSignal.set(this.signalService.allGamesSignal());
+  private loadProfileById(steamId: string): void {
+    this.loading = true;
+    this.loadProfileData(steamId);
   }
 
-  private async loadProfile(steamUser: string): Promise<void> {
+  private loadProfile(steamUser: string): void {
     this.loading = true;
     this.sharedService.getUserId(steamUser)
       .pipe(
-        take(1),
-        switchMap((steamId) => {
-          return forkJoin([
-            this.sharedService.playerSummary(steamId),
-            this.sharedService.steamOwnedGames(steamId)
-          ]);
-        })).subscribe(([playerSummary, ownedGames]) => {
-          this.signalService.allGamesSignal.set(ownedGames);
-          this.signalService.playerSummarySignal.set(playerSummary);
-          this.signalService.ownedGamesSignal.set(ownedGames);
-          this.loading = false;
-        });
+        take(1)
+      ).subscribe(id => {
+        this.loadProfileData(id)
+      });
   }
 
+  private loadProfileData(steamId: string) {
+    return forkJoin([
+      this.sharedService.playerSummary(steamId),
+      this.sharedService.steamOwnedGames(steamId)
+    ]).subscribe(([playerSummary, ownedGames]) => {
+      this.updateSignals(playerSummary, ownedGames);
+      this.loading = false;
+    });
+  }
+
+  private updateSignals(playerSummary: PlayerModel, ownedGames: GameModel[]): void {
+    this.signalService.allGamesSignal.set(ownedGames);
+    this.signalService.playerSummarySignal.set(playerSummary);
+    this.signalService.ownedGamesSignal.set(ownedGames);
+  }
+
+  public onHideNeverPlayed(hideNeverPlayed: boolean): void {
+    const games = hideNeverPlayed
+      ? this.signalService.allGamesSignal().filter(game => game.playtime_forever > 0)
+      : this.signalService.allGamesSignal();
+
+    this.signalService.ownedGamesSignal.set(games);
+  }
 }

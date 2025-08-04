@@ -1,6 +1,6 @@
 <div class="row owned-games-container">
     @for (game of ownedGames; track game.appid) {
-    <div class="col-md-4 col-sm-12 mb-2 card-parent">
+    <div class="col-md-4 col-sm-12 mb-2 card-parent" [ngClass]="{'pe-0 d-md-block': (($index + 1) % 3 === 0), 'd-none': (($index + 1) % 3 === 0)}">
         <div class="game-card card gradient-bg-dark border-0">
             <div class="card-body p-2">
                 <div class="d-flex">

@@ -4,10 +4,11 @@ import { LastPlayedPipe } from '../../shared/pipes/last-played.pipe';
 import { PlayTimePipe } from '../../shared/pipes/play-time.pipe';
 import { SignalService } from '../../shared/services/signal.service';
 import { TranslocoModule } from '@jsverse/transloco';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-owned-games',
-  imports: [LastPlayedPipe, PlayTimePipe, TranslocoModule],
+  imports: [LastPlayedPipe, PlayTimePipe, TranslocoModule, CommonModule],
   standalone: true,
   templateUrl: './owned-games.component.html',
   styleUrl: './owned-games.component.scss'

@@ -10,7 +10,7 @@
         <div class="col col-md-9 col-sm-12">
             <h2 class="display-5">
                 {{ playerSummary.personaname }}
-                <span class="fs-4"> ({{ playerSummary.realname }})</span>
+                <span class="fs-4"> ({{ playerSummary.realname || playerSummary.personaname }})</span>
                 @if(playerSummary.loccountrycode){
                 <ng-container>
                     <img [src]="'https://steamcommunity-a.akamaihd.net/public/images/countryflags/' + (playerSummary.loccountrycode | lowercase)  +'.gif'"

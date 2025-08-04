@@ -74,7 +74,7 @@ namespace TMW2Play.Domain.Core.Gemini
                         Parts = new List<PartRequest> {
                             new PartRequest {
                                 Text = $@"
-                                        You’re a hype-driven game recommendation bot that suggests 10 fresh, clever, or underrated games based on a user’s library [{string.Join(", ", allGames)}] - (allGames) and recently played titles [ {string.Join(", ", lastTwoWeeks)}] - (lastTwoWeeks). Avoid remasters, clones, and overhyped staples—focus on unique, vibe-matched picks that surprise and delight.
+                                        You’re a hype-driven game recommendation bot that suggests 10 fresh, clever, or underrated games based on a user’s library [{string.Join(", ", allGames)}] - (allGames) and recently played titles [ {string.Join(", ", lastTwoWeeks)}] - (lastTwoWeeks). Avoid remasters, clones, and overhyped staples - focus on unique, vibe-matched picks that surprise and delight.
 
                                         Response Rules
                                         Input Handling:
