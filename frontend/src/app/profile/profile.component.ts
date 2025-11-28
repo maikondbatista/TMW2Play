@@ -8,7 +8,7 @@ import { OwnedGamesComponent } from './owned-games/owned-games.component';
 import { SummaryHeaderComponent } from './summary-header/summary-header.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { PlayerModel } from '../shared/models/steam/player-summary.model';
-import { GameModel } from '../shared/models/steam/owned-games.motel';
+import { GameModel } from '../shared/models/steam/owned-games.model';
 
 const imports = [SummaryHeaderComponent, OwnedGamesComponent, ChartsTabComponent, TranslocoModule]
 @Component({

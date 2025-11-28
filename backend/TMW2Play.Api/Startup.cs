@@ -28,11 +28,7 @@ namespace TMW2Play.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(builder => builder
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowAnyOrigin()
-                        );
+         
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -42,11 +38,21 @@ namespace TMW2Play.Api
                     c.RoutePrefix = string.Empty;
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "MY API");
                 });
+                app.UseCors(builder => builder
+                     .AllowAnyOrigin()
+                     .AllowAnyHeader()
+                     .AllowAnyMethod()
+                     );
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
+                app.UseCors(builder => builder
+                 .WithOrigins("https://maikondbatista.github.io/TMW2Play")
+                 .AllowAnyHeader()
+                 .AllowAnyMethod()
+                 );
             }
 
             app.UseHttpsRedirection();

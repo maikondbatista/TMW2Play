@@ -11,7 +11,7 @@ namespace TMW2Play.Api.Controllers
     public class GeminiController(IGeminiHttpService geminiService, INotificationService notificationService) : ApiController(notificationService)
     {
         [HttpPost("resume")]
-        public async Task<IActionResult> OwnedGawes([FromBody] List<string> gamesWPlayTime, CancellationToken cancellationToken)
+        public async Task<IActionResult> UserResume([FromBody] List<string> gamesWPlayTime, CancellationToken cancellationToken)
         {
             var language = LoadUserLanguage();
             var games = await geminiService.UserResume(gamesWPlayTime, language, cancellationToken);

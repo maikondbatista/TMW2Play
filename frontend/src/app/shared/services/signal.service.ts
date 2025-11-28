@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { GameModel } from '../models/steam/owned-games.motel';
+import { GameModel } from '../models/steam/owned-games.model';
 
 @Injectable({
   providedIn: 'root'

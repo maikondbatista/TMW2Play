@@ -1,5 +1,5 @@
 import { Component, effect } from '@angular/core';
-import { GameModel } from '../../shared/models/steam/owned-games.motel';
+import { GameModel } from '../../shared/models/steam/owned-games.model';
 import { LastPlayedPipe } from '../../shared/pipes/last-played.pipe';
 import { PlayTimePipe } from '../../shared/pipes/play-time.pipe';
 import { SignalService } from '../../shared/services/signal.service';
