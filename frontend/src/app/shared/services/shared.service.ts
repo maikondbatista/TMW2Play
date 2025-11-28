@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { map, Observable, of, tap } from 'rxjs';
 import { PlayerModel, PlayerSummaryModel } from '../models/steam/player-summary.model';
-import { GameModel, OwnedGamesModel } from '../models/steam/owned-games.motel';
+import { GameModel, OwnedGamesModel } from '../models/steam/owned-games.model';
 import { SteamModel } from '../models/steam/steam.model';
 import { RecommendationModel } from '../models/llm/recommendation.model';
 import { PartModel } from '../models/llm/part.model';
