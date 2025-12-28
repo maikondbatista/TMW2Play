@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 using TMW2Play.Api.Configuration;
 
 namespace TMW2Play.Api

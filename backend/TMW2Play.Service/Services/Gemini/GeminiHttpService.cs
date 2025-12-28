@@ -1,4 +1,5 @@
 ﻿using Json.Schema;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Caching.Hybrid;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -10,7 +11,7 @@ using TMW2Play.Service.Domain.Services;
 
 namespace TMW2Play.Infra.HTTP.Gemini
 {
-    public class GeminiHttpService(IHttpService httpService, GeminiApiConfiguration geminiConfig, INotificationService notification, HybridCache cache) : IGeminiHttpService
+    public class GeminiHttpService(IHttpService httpService, GeminiApiConfiguration geminiConfig, INotificationService notification) : IGeminiHttpService
     {
         /// <summary>
         /// Returns the ML comment from user games.
@@ -22,7 +23,7 @@ namespace TMW2Play.Infra.HTTP.Gemini
                 //Add steamID on request headers, read and cache.
                 var generateGamerCommentUrl = geminiConfig.LLMUrl();
                 var body = geminiConfig.GamerCommentBody(GamesWPlayTime, language);
-                var response = await httpService.PostAsync<GeminiApiResponse>(generateGamerCommentUrl, body, cancellationToken);
+                var response = await httpService.PostAsync<GeminiApiResponse>(generateGamerCommentUrl, body, cancellationToken, GeminiAuthHeaders());
                 return response?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault();
             }
             catch (Exception)
@@ -49,16 +50,15 @@ namespace TMW2Play.Infra.HTTP.Gemini
                 if (body is null)
                 {
                     notification.AddNotification("No games added to library.");
-                    return null;
+                    return [];
                 }
-
-                var response = await httpService.PostAsync<GeminiApiResponse>(generateGamerCommentUrl, body, cancellationToken);
+                var response = await httpService.PostAsync<GeminiApiResponse>(generateGamerCommentUrl, body, cancellationToken, GeminiAuthHeaders());
                 var jsonRecommendation = response?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text;
 
                 if (string.IsNullOrWhiteSpace(jsonRecommendation))
                 {
                     notification.AddNotification("No recommendations found in AI response.");
-                    return null;
+                    return [];
                 }
 
                 var cleanedJson = CleanJson(jsonRecommendation);
@@ -66,19 +66,20 @@ namespace TMW2Play.Infra.HTTP.Gemini
                 if (!TryParseJsonArray(cleanedJson, out var jsonArray, out var parseError))
                 {
                     notification.AddNotification($"Invalid JSON format in recommended games response: {parseError}");
-                    return null;
+                    return [];
                 }
 
                 var schema = JsonSchema.FromText(geminiConfig.TMW2PlaySchema);
 
                 foreach (var item in jsonArray)
                 {
-                    var result = schema.Evaluate(item);
+                    var jsonElement = JsonSerializer.SerializeToElement(item);
+                    var result = schema.Evaluate(jsonElement);
                     if (!result.IsValid)
                     {
                         notification.AddNotification("One or more recommendations do not match the required schema: " +
-                            string.Join("; ", result.Details.Select(d => d)));
-                        return null;
+                            string.Join("; ", result.Details?.Select(d => d) ?? []));
+                        return [];
                     }
                 }
 
@@ -99,7 +100,15 @@ namespace TMW2Play.Infra.HTTP.Gemini
             {
                 notification.AddNotification($"An error occurred while fetching recommended games: {ex.Message}");
             }
-            return null;
+            return [];
+        }
+
+        private Dictionary<string, string> GeminiAuthHeaders()
+        {
+            return new Dictionary<string, string>
+                {
+                    { "X-goog-api-key", geminiConfig.LLMApiKey }
+                };
         }
 
         private static string CleanJson(string input) =>
@@ -135,7 +144,5 @@ namespace TMW2Play.Infra.HTTP.Gemini
                 return false;
             }
         }
-
-
     }
 }
