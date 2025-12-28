@@ -4,11 +4,13 @@ namespace TMW2Play.Domain.Core.Gemini
 {
     public class GeminiApiConfiguration(string geminiAPIKey)
     {
-        private string ApiKey { get; } = geminiAPIKey;
+        public string ApiKey { get; } = geminiAPIKey;
         private string GeminiBaseUrl { get; } = "https://generativelanguage.googleapis.com";
         private string V1Beta { get; } = "/v1beta";
         private string Models { get; } = "/models";
-        private string gemini2Flash { get; } = "/gemini-2.0-flash:generateContent";
+        private string Gemini2Flash { get; } = "/gemini-2.0-flash:generateContent";
+        private string Gemini25FlashLite { get; } = "/gemini-2.5-flash-lite:generateContent";
+        public string LLMApiKey { get { return ApiKey; } }
 
         public GeminiApiRequest GamerCommentBody(List<string> gamesWPlayTime, string language)
         {
@@ -148,7 +150,7 @@ namespace TMW2Play.Domain.Core.Gemini
 
         public string LLMUrl()
         {
-            return $"{GeminiBaseUrl + V1Beta + Models + gemini2Flash}?key={ApiKey}";
+            return $"{GeminiBaseUrl + V1Beta + Models + Gemini25FlashLite}";
         }
         public string TMW2PlaySchema = @"{
                                               ""$schema"": ""https://json-schema.org/draft/2020-12/schema"",
