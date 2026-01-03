@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi;
+﻿using Microsoft.AspNetCore.RateLimiting;
 using TMW2Play.Api.Configuration;
 
 namespace TMW2Play.Api
@@ -24,6 +25,24 @@ namespace TMW2Play.Api
             services.AddGeminiAi(Configuration);
             services.AddServices();
             services.AddHybridCache();
+            services.AddRateLimiter(options =>
+            {
+                options.AddFixedWindowLimiter("Second", opt =>
+                {
+                    opt.PermitLimit = 5;
+                    opt.Window = TimeSpan.FromSeconds(1);
+                });
+                options.AddFixedWindowLimiter("Minute", opt =>
+                {
+                    opt.PermitLimit = 15;
+                    opt.Window = TimeSpan.FromMinutes(1);
+                });
+                options.AddFixedWindowLimiter("Hour", opt =>
+                {
+                    opt.PermitLimit = 100;  // Adjust this value based on your needs
+                    opt.Window = TimeSpan.FromHours(1);
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,7 +65,6 @@ namespace TMW2Play.Api
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
                 app.UseCors(builder => builder
                  .WithOrigins("https://maikondbatista.github.io/TMW2Play")
