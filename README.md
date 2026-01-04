@@ -6,7 +6,7 @@ A modern web application that helps gamers decide what to play next from their S
 
 ### Prerequisites
 - Docker and Docker Compose
-- .NET 9 SDK (for local development)
+- .NET 10 SDK (for local development)
 - Node.js 20+ (for local development)
 - Steam Web API key ([Get it here](https://steamcommunity.com/dev/apikey))
 - Google Gemini API key ([Get it here](https://makersuite.google.com/app/apikey))
@@ -28,7 +28,7 @@ Access the application at `http://localhost:1010`
 
 ### Local Development
 
-#### Frontend (Angular 20)
+#### Frontend (Angular 21)
 ```bash
 cd frontend
 npm install
@@ -36,7 +36,7 @@ ng serve --o
 ```
 Frontend will be available at `http://localhost:4200`
 
-#### Backend (.NET 9)
+#### Backend (.NET 10)
 ```bash
 cd backend
 dotnet restore
@@ -46,8 +46,8 @@ API will be available at `http://localhost:5262`
 
 ## 🏗️ Architecture
 
-### Frontend (Angular 20)
-- **Framework**: Angular 20
+### Frontend (Angular 21)
+- **Framework**: Angular 21
 - **State Management**: Angular Signals
 - **UI Components**: Bootstrap 5 + ng-bootstrap
 - **Charts**: Chart.js + ng2-charts
