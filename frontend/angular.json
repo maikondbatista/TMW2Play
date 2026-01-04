@@ -59,7 +59,7 @@
                 }
               ],
               "outputPath": "../docs",
-              "baseHref": "/TMW2Play/",
+              "baseHref": "",
               "optimization": true,
               "aot": true,
               "extractLicenses": true,
