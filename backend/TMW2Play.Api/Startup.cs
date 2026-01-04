@@ -1,5 +1,7 @@
 ﻿using Microsoft.OpenApi;
 using Microsoft.AspNetCore.RateLimiting;
+﻿using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.OpenApi.Models;
 using TMW2Play.Api.Configuration;
 using System.Threading.RateLimiting;
 
@@ -52,7 +54,7 @@ namespace TMW2Play.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
+         
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
