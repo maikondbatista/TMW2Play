@@ -4,12 +4,12 @@ import { take } from 'rxjs';
 import { TwoWeeksFilter } from '../../../shared/constants/filters/two-weeks.filter';
 import { SignalService } from '../../../shared/services/signal.service';
 import { RecommendationModel } from '../../../shared/models/llm/recommendation.model';
-import { CommonModule } from '@angular/common';
+
 import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-tell-me-what-to-play',
-  imports: [CommonModule, TranslocoModule],
+  imports: [TranslocoModule],
   templateUrl: './tell-me-what-to-play.component.html',
   styleUrl: './tell-me-what-to-play.component.scss'
 })

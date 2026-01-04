@@ -1,6 +1,7 @@
 ﻿using Microsoft.OpenApi;
-﻿using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 using TMW2Play.Api.Configuration;
+using System.Threading.RateLimiting;
 
 namespace TMW2Play.Api
 {
@@ -27,27 +28,31 @@ namespace TMW2Play.Api
             services.AddHybridCache();
             services.AddRateLimiter(options =>
             {
-                options.AddFixedWindowLimiter("Second", opt =>
+                options.AddFixedWindowLimiter("AILimiter", opt =>
                 {
-                    opt.PermitLimit = 5;
+                    opt.PermitLimit = 2;
                     opt.Window = TimeSpan.FromSeconds(1);
                 });
-                options.AddFixedWindowLimiter("Minute", opt =>
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 15,
+                        Window = TimeSpan.FromMinutes(1)
+                    }));
+                options.OnRejected = async (context, token) =>
                 {
-                    opt.PermitLimit = 15;
-                    opt.Window = TimeSpan.FromMinutes(1);
-                });
-                options.AddFixedWindowLimiter("Hour", opt =>
-                {
-                    opt.PermitLimit = 100;  // Adjust this value based on your needs
-                    opt.Window = TimeSpan.FromHours(1);
-                });
+                    context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                    await context.HttpContext.Response.WriteAsync("Rate limit exceeded");
+                };
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-         
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -77,7 +82,7 @@ namespace TMW2Play.Api
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
-
+            app.UseRateLimiter();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

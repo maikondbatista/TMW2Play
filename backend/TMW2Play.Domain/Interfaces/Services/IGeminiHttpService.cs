@@ -1,11 +1,12 @@
-﻿using TMW2Play.Domain.Entities.Gemini.JsonPrompt;
+﻿using TMW2Play.Domain.DTO;
+using TMW2Play.Domain.Entities.Gemini.JsonPrompt;
 using TMW2Play.Domain.Entities.Gemini.Response;
 
 namespace TMW2Play.Infra.HTTP.Gemini
 {
     public interface IGeminiHttpService
     {
-        Task<PartResponse?> UserResume(List<string> GamesWPlayTime, string language, CancellationToken cancellationToken = default);
+        Task<string> HumiliateMyLibrary(HumiliateMyLibraryRequest request, string language, CancellationToken cancellationToken = default);
         Task<List<GameRecommendation>> TellMeWhatToPlay(List<string> GamesWPlayTime, List<string> allGames, string language, CancellationToken cancellationToken = default);
     }
 }

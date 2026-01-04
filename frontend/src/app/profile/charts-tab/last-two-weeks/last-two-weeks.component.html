@@ -1,4 +1,4 @@
-@if(data && data.length){
+@if(hasDataWithValue) {
   <div class="col-12 chart">
     <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions">
     </canvas>

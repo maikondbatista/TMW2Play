@@ -1,5 +1,5 @@
 import { Component, effect } from '@angular/core';
-import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { TwoWeeksFilter } from '../../shared/constants/filters/two-weeks.filter';
 import { AdvancedPieChartModel } from '../../shared/models/charts/advanced-pie-chart.model';
 import { MinutesToHoursPipe } from '../../shared/pipes/minutes-to-hours.pipe';
@@ -8,8 +8,9 @@ import { AllTimeComponent } from './all-time/all-time.component';
 import { LastTwoWeeksComponent } from "./last-two-weeks/last-two-weeks.component";
 import { TellMeWhatToPlayComponent } from './tell-me-what-to-play/tell-me-what-to-play.component';
 import { TranslocoModule } from '@jsverse/transloco';
+import { HumiliateMyLibraryComponent } from './humiliate-my-library/humiliate-my-library.component';
 const imports = [NgbNavModule, NgbAlertModule, LastTwoWeeksComponent, AllTimeComponent,
-  TellMeWhatToPlayComponent, TranslocoModule];
+  TellMeWhatToPlayComponent, TranslocoModule, HumiliateMyLibraryComponent];
 @Component({
   selector: 'app-charts-tab',
   imports: [imports],
@@ -28,6 +29,7 @@ export class ChartsTabComponent {
   showLabels: boolean = true;
   isDoughnut: boolean = false;
   tmw2PlayLoaded: boolean = false;
+  humiliateMyLibLoaded: boolean = false;
   translationPrefix = 'profile.chartsTab.';
 
   colorScheme = {

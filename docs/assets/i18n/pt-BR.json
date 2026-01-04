@@ -33,7 +33,9 @@
             },
             "humiliateMyLibrary": {
                 "title": "Humilhe Minha Biblioteca",
-                "description": "Este recurso irá analisar sua biblioteca e... tente adivinhar. Pronto para encarar a verdade?"
+                "description": "Este recurso irá analisar sua biblioteca e... Adivinha! Pronto para encarar a verdade?",
+                "humiliationTitle": "Aqui está a verdade sobre sua biblioteca...",
+                "humilationFailed": "Não foi possível humilhar sua biblioteca no momento. Tente novamente mais tarde."
             }
         },
         "ownedGames": {

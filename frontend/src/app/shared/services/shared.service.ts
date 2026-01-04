@@ -9,6 +9,7 @@ import { SteamModel } from '../models/steam/steam.model';
 import { RecommendationModel } from '../models/llm/recommendation.model';
 import { PartModel } from '../models/llm/part.model';
 import { UserModel } from '../models/steam/user.model';
+import { HumiliateMyLibraryRequest } from '../models/llm/humiliate-my-library.model';
 
 @Injectable({
     providedIn: 'root'
@@ -23,8 +24,8 @@ export class SharedService {
         this.apiUrl = environment.apiUrl;
     }
 
-    public getUserResume(gamesWPlaytime: string[]): Observable<PartModel> {
-        return this.http.post<PartModel>(`${this.apiUrl + this.geminiController}resume`, gamesWPlaytime);
+    public humiliateMyLibrary(request: HumiliateMyLibraryRequest): Observable<string> {
+        return this.http.post(`${this.apiUrl + this.geminiController}humiliate-my-library`, request, { responseType: 'text' });
     }
 
     tellMeWhatToPlay(lastTwoWeeks: string[], allGames: string[]): Observable<RecommendationModel[]> {
