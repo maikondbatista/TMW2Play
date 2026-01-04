@@ -3,10 +3,11 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AdvancedPieChartModel } from '../../../shared/models/charts/advanced-pie-chart.model';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-last-two-weeks',
-  imports: [BaseChartDirective, TranslocoModule],
+  imports: [BaseChartDirective, TranslocoModule, JsonPipe],
   standalone: true,
   templateUrl: './last-two-weeks.component.html',
   styleUrl: './last-two-weeks.component.scss'
@@ -42,5 +43,9 @@ export class LastTwoWeeksComponent {
       }
     }, 1000);
 
+  }
+
+  get hasDataWithValue(): boolean {
+    return this.data && this.data.length > 0 && this.data.some(item => item.value > 0);
   }
 }

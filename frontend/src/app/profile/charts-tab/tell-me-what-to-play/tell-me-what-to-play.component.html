@@ -1,48 +1,50 @@
 <div class="recommendations-container">
-    <h1 class="hype-header">
-        🎮 <span class="glitch-text">{{ translationPrefix + 'gameRecommendations' | transloco}}</span> 👾
-    </h1>
-    @if(!loading && TMW2Play && TMW2Play.length > 0) {
+  <h1 class="hype-header">
+    🎮 <span class="glitch-text">{{ translationPrefix + 'gameRecommendations' | transloco}}</span> 👾
+  </h1>
+  @if(!loading && TMW2Play && TMW2Play.length > 0) {
     <div class="game-grid">
-        @for(game of TMW2Play; track game.name){
+      @for(game of TMW2Play; track game.name){
         <div [class.wildcard]="game.isWildcard" class="game-card">
 
-            <!-- Genres as tags -->
-            <div class="genre-tags">
-                @for(genre of game.genres; track genre)
-                {
-                <span class="tag">{{ genre }}</span>
-                }
-            </div>
+          <!-- Genres as tags -->
+          <div class="genre-tags">
+            @for(genre of game.genres; track genre)
+              {
+              <span class="tag">{{ genre }}</span>
+            }
+          </div>
 
-            <!-- Game title + reference -->
-            <h2 class="game-title">
-                #{{ game.id }}. {{ game.name }}
-                <span *ngIf="game.isWildcard" class="wildcard-badge">
-                    {{ translationPrefix + 'wildcard' | transloco}}</span>
-            </h2>
-            <p class="reference-game">{{ translationPrefix + 'forfansOf' | transloco }}<strong>{{ game.referenceGame }}</strong></p>
-            <!-- Pitch/Why/Score -->
-            <div class="game-details">
-                <p><span class="label">{{ translationPrefix + 'pitch' | transloco }}</span> {{ game.pitch }}</p>
-                <p><span class="label">{{ translationPrefix + 'why' | transloco }}</span> {{ game.why }}</p>
-                <p class="score">{{ game.score }}</p>
-            </div>
+          <!-- Game title + reference -->
+          <h2 class="game-title">
+            #{{ game.id }}. {{ game.name }}
+            @if (game.isWildcard) {
+              <span class="wildcard-badge">
+              {{ translationPrefix + 'wildcard' | transloco}}</span>
+            }
+          </h2>
+          <p class="reference-game">{{ translationPrefix + 'forfansOf' | transloco }}<strong>{{ game.referenceGame }}</strong></p>
+          <!-- Pitch/Why/Score -->
+          <div class="game-details">
+            <p><span class="label">{{ translationPrefix + 'pitch' | transloco }}</span> {{ game.pitch }}</p>
+            <p><span class="label">{{ translationPrefix + 'why' | transloco }}</span> {{ game.why }}</p>
+            <p class="score">{{ game.score }}</p>
+          </div>
         </div>
-        }
+      }
     </div>
-    } @else if(!loading) {
+  } @else if(!loading) {
     <div class="no-recommendations">
-        <h2>{{ translationPrefix + 'noRecommendationsTitle' | transloco }}</h2>
-        <p>{{ translationPrefix + 'noRecommendationsLabel1' | transloco }}</p>
-        <p>{{ translationPrefix + 'noRecommendationsLabel2' | transloco }}</p>
-        <p>{{ translationPrefix + 'noRecommendationsLabel3' | transloco }}</p>
+      <h2>{{ translationPrefix + 'noRecommendationsTitle' | transloco }}</h2>
+      <p>{{ translationPrefix + 'noRecommendationsLabel1' | transloco }}</p>
+      <p>{{ translationPrefix + 'noRecommendationsLabel2' | transloco }}</p>
+      <p>{{ translationPrefix + 'noRecommendationsLabel3' | transloco }}</p>
     </div>
-    }
-    @else {
-    <div class="loading-spinner">
-        <div class="spinner-border" role="status">
-        </div>
+  }
+  @else {
+  <div class="loading-spinner">
+    <div class="spinner-border" role="status">
     </div>
-    }
+  </div>
+}
 </div>

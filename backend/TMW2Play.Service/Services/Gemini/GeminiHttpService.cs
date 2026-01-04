@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Hybrid;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using TMW2Play.Domain.Core.Gemini;
+using TMW2Play.Domain.DTO;
 using TMW2Play.Domain.Entities.Gemini.JsonPrompt;
 using TMW2Play.Domain.Entities.Gemini.Response;
 using TMW2Play.Domain.Interfaces.Services;
@@ -16,31 +17,41 @@ namespace TMW2Play.Infra.HTTP.Gemini
         /// <summary>
         /// Returns the ML comment from user games.
         /// </summary>
-        public async Task<PartResponse?> UserResume(List<string> GamesWPlayTime, string language, CancellationToken cancellationToken = default)
+
+        public async Task<string> HumiliateMyLibrary(HumiliateMyLibraryRequest request, string language, CancellationToken cancellationToken = default)
         {
             try
             {
-                //Add steamID on request headers, read and cache.
                 var generateGamerCommentUrl = geminiConfig.LLMUrl();
-                var body = geminiConfig.GamerCommentBody(GamesWPlayTime, language);
+                var body = geminiConfig.HumiliateMyLibrary(request, language);
+
+                if (body is null)
+                {
+                    notification.AddNotification("No games added to library.");
+                    return null;
+                }
                 var response = await httpService.PostAsync<GeminiApiResponse>(generateGamerCommentUrl, body, cancellationToken, GeminiAuthHeaders());
-                return response?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault();
+                var comment = response?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text;
+
+                if (string.IsNullOrWhiteSpace(comment))
+                {
+                    notification.AddNotification("No Humiliation was able to be done.");
+                    return null;
+                }
+
+                return CleanJson(comment);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                notification.AddNotification("An error occurred while fetching user resume.");
+                notification.AddNotification($"An error occurred while fetching humiliation.");
             }
-            return default;
+            return null;
         }
 
         /// <summary>
         /// Returns a list of recommended games based on user's playtime and library.
         /// </summary>
-        public async Task<List<GameRecommendation>> TellMeWhatToPlay(
-     List<string> GamesWPlayTime,
-     List<string> allGames,
-     string language,
-     CancellationToken cancellationToken = default)
+        public async Task<List<GameRecommendation>> TellMeWhatToPlay(List<string> GamesWPlayTime, List<string> allGames, string language, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -93,12 +104,12 @@ namespace TMW2Play.Infra.HTTP.Gemini
                 }
                 catch (JsonException ex)
                 {
-                    notification.AddNotification($"Deserialization error: {ex.Message}");
+                    notification.AddNotification($"Deserialization error");
                 }
             }
             catch (Exception ex)
             {
-                notification.AddNotification($"An error occurred while fetching recommended games: {ex.Message}");
+                notification.AddNotification($"An error occurred while fetching recommended games");
             }
             return [];
         }

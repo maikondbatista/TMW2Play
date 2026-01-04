@@ -33,7 +33,9 @@
             },
             "humiliateMyLibrary": {
                 "title": "Humiliate My Library",
-                "description": "This feature will analyze your library and... try guess. Are you ready to face the truth?"
+                "description": "This feature will analyze your library and... Guess! Are you ready to face the truth?",
+                "humiliationTitle": "Here's the truth about your library...",
+                "humilationFailed": "Couldn't humiliate your library at the moment. Try again later."
             }
         },
         "ownedGames": {

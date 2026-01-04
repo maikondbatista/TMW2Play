@@ -1,5 +1,17 @@
-<div class="col-1"></div>
-<div class="col-10 m-auto">
-    <p> Working on it...</p>
+<div class="recommendations-container">
+    
+<h1 class="hype-header"><span class="letter" style="--letter-index: 0">F</span><span class="letter" style="--letter-index: 1">A</span><span class="letter" style="--letter-index: 2">T</span><span class="letter" style="--letter-index: 3">A</span><span class="letter" style="--letter-index: 4">L</span><span class="letter" style="--letter-index: 5">I</span><span class="letter" style="--letter-index: 6">T</span><span class="letter" style="--letter-index: 7">Y</span></h1>
+  @if(!loading && humiliationText && humiliationText.length > 0) {
+    <div class="humiliation-text" [innerHTML]="humiliationHtml"></div>
+  } @else if(!loading) {
+    <div class="no-recommendations">
+      <h2>{{ translationPrefix + 'humilationFailed' | transloco }}</h2>
+    </div>
+  }
+  @else {
+  <div class="loading-spinner">
+    <div class="spinner-border" role="status">
+    </div>
+  </div>
+}
 </div>
-<div class="col-1"></div>

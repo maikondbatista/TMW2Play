@@ -22,12 +22,16 @@
                 }
             </ng-template>
         </li>
-        <!-- <li [ngbNavItem]="4" [destroyOnHide]="true" [title]="'humiliateMyLibrary' | transloco">
-            <button ngbNavLink>{{ translationPrefix + 'hmLibraryLabel' | transloco }}</button>
+        <li [ngbNavItem]="4" [destroyOnHide]="false" [title]="translationPrefix + 'humiliateMyLibrary.description' | transloco">
+            <button ngbNavLink (click)="humiliateMyLibLoaded = true">{{ translationPrefix + 'humiliateMyLibrary.title' | transloco }}</button>
             <ng-template ngbNavContent>
-                <app-humiliate-my-library></app-humiliate-my-library>
+                @if(humiliateMyLibLoaded){
+                <ng-container>
+                    <app-humiliate-my-library></app-humiliate-my-library>
+                </ng-container>
+                }
             </ng-template>
-        </li> -->
+        </li>
     </ul>
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
 </div>
