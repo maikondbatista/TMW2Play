@@ -12,14 +12,6 @@ namespace TMW2Play.Api.Controllers
     [EnableRateLimiting("AILimiter")]
     public class GeminiController(IGeminiHttpService geminiService, INotificationService notificationService) : ApiController(notificationService)
     {
-        [HttpPost("resume")]
-        public async Task<IActionResult> UserResume([FromBody] List<string> gamesWPlayTime, CancellationToken cancellationToken)
-        {
-            var language = LoadUserLanguage();
-            var games = await geminiService.UserResume(gamesWPlayTime, language, cancellationToken);
-            return await ResponseAsync(games);
-        }
-
         [HttpPost("tell-me-what-to-play")]
         public async Task<IActionResult> TellMeWhatToPlay([FromBody] TellMeWhatToPlayRequest request, CancellationToken cancellationToken)
         {

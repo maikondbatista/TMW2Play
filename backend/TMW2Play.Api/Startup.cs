@@ -1,7 +1,5 @@
 ﻿using Microsoft.OpenApi;
 using Microsoft.AspNetCore.RateLimiting;
-﻿using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.OpenApi.Models;
 using TMW2Play.Api.Configuration;
 using System.Threading.RateLimiting;
 
