@@ -52,7 +52,7 @@ namespace TMW2Play.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-         
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,7 +72,7 @@ namespace TMW2Play.Api
             {
                 app.UseHsts();
                 app.UseCors(builder => builder
-                 .WithOrigins("https://maikondbatista.github.io/TMW2Play")
+                 .WithOrigins(new string[] { "https://tmw2play.com.br" })
                  .AllowAnyHeader()
                  .AllowAnyMethod()
                  );
