@@ -7,7 +7,7 @@ import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-last-two-weeks',
-  imports: [BaseChartDirective, TranslocoModule, JsonPipe],
+  imports: [BaseChartDirective, TranslocoModule],
   standalone: true,
   templateUrl: './last-two-weeks.component.html',
   styleUrl: './last-two-weeks.component.scss'

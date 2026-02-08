@@ -9,7 +9,7 @@ import { MinutesToHoursPipe } from '../../../shared/pipes/minutes-to-hours.pipe'
 
 @Component({
   selector: 'app-humiliate-my-library',
-  imports: [TranslocoModule, MinutesToHoursPipe],
+  imports: [TranslocoModule],
   templateUrl: './humiliate-my-library.component.html',
   styleUrl: './humiliate-my-library.component.scss'
 })

@@ -68,5 +68,9 @@
         "justNow": "agora mesmo",
         "neverPlayed": "Nunca jogado",
         "language": "Idioma"
+    },
+    "error": {
+        "title": "Oops!",
+        "unexpected": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde."
     }
 }

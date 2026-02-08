@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
   providers:
     [
       provideZoneChangeDetection({ eventCoalescing: true }),
-      provideRouter(routes, withHashLocation()),
+      provideRouter(routes),
       provideToastr({ positionClass: 'toast-bottom-right' }),
       provideCharts({ registerables: [PieController, ArcElement, Colors, Tooltip, Legend] }),
       provideHttpClient(withInterceptorsFromDi()),
