@@ -1,5 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
-import { provideRouter, withHashLocation } from '@angular/router';
+import { ApplicationConfig, provideZoneChangeDetection, isDevMode, LOCALE_ID } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { registerLocaleData, DatePipe } from '@angular/common';
+import ptBr from '@angular/common/locales/pt';
+import enUs from '@angular/common/locales/en';
 
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -13,6 +16,10 @@ import { provideTransloco } from '@jsverse/transloco';
 import { LanguagesConstant } from './shared/constants/language/languages.constant';
 import { LanguageInterceptor } from './shared/interceptors/language.interceptor';
 
+// Register locales for date pipe
+registerLocaleData(ptBr);
+registerLocaleData(enUs);
+
 export const appConfig: ApplicationConfig = {
   providers:
     [
@@ -23,6 +30,7 @@ export const appConfig: ApplicationConfig = {
       provideHttpClient(withInterceptorsFromDi()),
       provideHttpClient(),
       provideAnimations(),
+      DatePipe,
       {
         provide: HTTP_INTERCEPTORS,
         useClass: ErrorInterceptor,
@@ -32,6 +40,10 @@ export const appConfig: ApplicationConfig = {
         provide: HTTP_INTERCEPTORS,
         useClass: LanguageInterceptor,
         multi: true
+      },
+      {
+        provide: LOCALE_ID,
+        useValue: LanguagesConstant.enUs
       },
       provideTransloco({
         config: {
@@ -44,3 +56,4 @@ export const appConfig: ApplicationConfig = {
       })
     ]
 };
+

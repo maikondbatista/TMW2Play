@@ -1,0 +1,44 @@
+name: CD - Deploy Somee
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore TMW2Play.Api.sln
+
+      - name: Publish
+        run: dotnet publish TMW2Play.Api/TMW2Play.Api.csproj -c Release -o publish
+
+      - name: Replace API keys
+        run: |
+          sed -i "s|__STEAM_KEY__|${{ secrets.STEAM_API_KEY }}|g" publish/appsettings.json
+          sed -i "s|__GEMINI_KEY__|${{ secrets.GEMINI_API_KEY }}|g" publish/appsettings.json
+
+      - name: Deploy to Somee
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: backend/publish/
+          server-dir: /wwwroot/
+          dangerous-clean-slate: true

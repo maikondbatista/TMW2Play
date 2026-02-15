@@ -3,7 +3,6 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AdvancedPieChartModel } from '../../../shared/models/charts/advanced-pie-chart.model';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-last-two-weeks',
