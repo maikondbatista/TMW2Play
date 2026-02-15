@@ -28,6 +28,13 @@ namespace TMW2Play.Api.Controllers
             return await ResponseAsync(games);
         }
 
+        [HttpPost("tell-me-what-is-upcoming")]
+        public async Task<IActionResult> TellMeWhatIsUpcoming([FromBody] TellMeWhatIsUpcomingRequest request, CancellationToken cancellationToken)
+        {
+            var language = LoadUserLanguage();
+            var games = await geminiService.TellMeWhatIsUpcoming(request, language, cancellationToken);
+            return await ResponseAsync(games);
+        }
 
         private string LoadUserLanguage()
         {

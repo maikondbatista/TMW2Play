@@ -27,15 +27,20 @@
                 "pitch": "Pitch: ",
                 "why": "Why? ",
                 "noRecommendationsTitle": "No recommendations available.",
-                "noRecommendationsLabel1": "It seems like we hit a glitch and can't find any games to recommend at the moment. Please check back later!",
-                "noRecommendationsLabel2": "I am sorry you are seeing this! Try again in a few minutes.",
-                "noRecommendationsLabel3": "Happy gaming!"
+                "noRecommendationsLabel1": "It seems like we hit a glitch and can't find any games to recommend at the moment. Please check back later!"
             },
             "humiliateMyLibrary": {
                 "title": "Humiliate My Library",
                 "description": "This feature will analyze your library and... Guess! Are you ready to face the truth?",
                 "humiliationTitle": "Here's the truth about your library...",
                 "humilationFailed": "Couldn't humiliate your library at the moment. Try again later."
+            },
+            "tellMeWhatIsUpcoming": {
+                "title": "Tell me what is upcoming",
+                "description": "Discover the games that are about to be released on Steam and prepare for what's coming!",
+                "anticipation": "Anticipation",
+                "noUpcomingTitle": "No upcoming games found.",
+                "releaseDate": "Release Date:"
             }
         },
         "ownedGames": {
@@ -71,6 +76,8 @@
     },
     "error": {
         "title": "Oops!",
-        "unexpected": "An unexpected error occurred. Please try again later."
+        "unexpected": "An unexpected error occurred. Please try again later.",
+        "sorryForThat": "I am sorry you are seeing this! Try again in a few minutes.",
+        "happyGaming": "Happy gaming!"
     }
 }

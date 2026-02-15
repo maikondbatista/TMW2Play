@@ -1,0 +1,55 @@
+<div class="recommendations-container">
+  <h1 class="hype-header">
+    🚀 <span class="glitch-text">{{ translationPrefix + 'title' | transloco }}</span> ⏳
+  </h1>
+  @if(!loading && upcomingGames && upcomingGames.length > 0) {
+  <div class="game-grid">
+    @for(game of upcomingGames; track game.id){
+    <div class="game-card">
+      <!-- Genres as tags -->
+      <div class="genre-tags">
+        @for(genre of game.genres; track genre)
+        {
+        <span class="tag">{{ genre }}</span>
+        }
+      </div>
+
+      <!-- Game title + platform -->
+      <div class="game-title">
+        #{{ game.id }}. {{ game.name }}
+        </div>
+        <div class="platform-tags">
+        @for(platform of game.platforms; track platform)
+        {
+        <span class="tag platform">{{ platform }}</span>
+        }
+      </div>
+
+      <!-- Release date and description -->
+      <div class="game-details">
+        <p>
+          <span class="label">{{ translationPrefix + 'releaseDate' | transloco }}</span>
+          {{ game.releaseDate }}
+        </p>
+        <p>{{ game.description }}</p>
+        @if (game.anticipationScore) {
+        <p class="score">{{ translationPrefix + 'anticipation' | transloco }}: {{ game.anticipationScore }}/10</p>
+        }
+      </div>
+    </div>
+    }
+  </div>
+  } @else if(!loading) {
+  <div class="no-recommendations">
+    <h2>{{ translationPrefix + 'noUpcomingTitle' | transloco }}</h2>
+    <p>{{ 'error.sorryForThat' | transloco }}</p>
+    <p>{{ 'error.happyGaming' | transloco }}</p>
+  </div>
+  }
+  @else {
+  <div class="loading-spinner">
+    <div class="spinner-border" role="status">
+    </div>
+  </div>
+  }
+</div>

@@ -30,17 +30,17 @@ namespace TMW2Play.Api
             {
                 options.AddFixedWindowLimiter("AILimiter", opt =>
                 {
-                    opt.PermitLimit = 2;
-                    opt.Window = TimeSpan.FromSeconds(1);
+                    opt.PermitLimit = 6;
+                    opt.Window = TimeSpan.FromMinutes(1);
                 });
                 options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
                 RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
-                    factory: _ => new FixedWindowRateLimiterOptions
-                    {
-                        PermitLimit = 15,
-                        Window = TimeSpan.FromMinutes(1)
-                    }));
+                        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 15,
+                            Window = TimeSpan.FromMinutes(1)
+                        }));
                 options.OnRejected = async (context, token) =>
                 {
                     context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;

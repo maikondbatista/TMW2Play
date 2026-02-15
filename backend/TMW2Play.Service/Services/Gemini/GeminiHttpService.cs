@@ -114,6 +114,69 @@ namespace TMW2Play.Infra.HTTP.Gemini
             return [];
         }
 
+        public async Task<List<GameUpcoming>> TellMeWhatIsUpcoming(TellMeWhatIsUpcomingRequest request, string language, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var generateUrl = geminiConfig.LLMUrl();
+                var body = geminiConfig.TellMeWhatIsUpcomingBody(request.LastTwoWeeks, request.AllGames, language);
+
+                if (body is null)
+                {
+                    notification.AddNotification("No games added to library.");
+                    return [];
+                }
+
+                var response = await httpService.PostAsync<GeminiApiResponse>(generateUrl, body, cancellationToken, GeminiAuthHeaders());
+                var jsonUpcoming = response?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text;
+
+                if (string.IsNullOrWhiteSpace(jsonUpcoming))
+                {
+                    notification.AddNotification("No upcoming games found in AI response.");
+                    return [];
+                }
+
+                var cleanedJson = CleanJson(jsonUpcoming);
+
+                if (!TryParseJsonArray(cleanedJson, out var jsonArray, out var parseError))
+                {
+                    notification.AddNotification($"Invalid JSON format in upcoming games response: {parseError}");
+                    return [];
+                }
+
+                var schema = JsonSchema.FromText(geminiConfig.UpcomingGameReleaseSchema);
+                foreach (var item in jsonArray)
+                {
+                    var jsonElement = JsonSerializer.SerializeToElement(item);
+                    var result = schema.Evaluate(jsonElement);
+                    if (!result.IsValid)
+                    {
+                        notification.AddNotification("One or more recommendations do not match the required schema: " +
+                            string.Join("; ", result.Details?.Select(d => d) ?? []));
+                        return [];
+                    }
+                }
+
+                try
+                {
+                    var gameReleases = jsonArray.Deserialize<List<GameUpcoming>>();
+                    if (gameReleases is not null)
+                        return gameReleases;
+
+                    notification.AddNotification("Failed to parse recommended games response.");
+                }
+                catch (JsonException ex)
+                {
+                    notification.AddNotification($"Deserialization error");
+                }
+            }
+            catch (Exception ex)
+            {
+                notification.AddNotification($"An error occurred while fetching upcoming games.");
+            }
+            return [];
+        }
+
         private Dictionary<string, string> GeminiAuthHeaders()
         {
             return new Dictionary<string, string>

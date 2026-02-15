@@ -197,6 +197,68 @@ namespace TMW2Play.Domain.Core.Gemini
             return $"{GeminiBaseUrl + V1Beta + Models + Gemini25FlashLite}";
         }
 
+        public GeminiApiRequest TellMeWhatIsUpcomingBody(IEnumerable<string> lastTwoWeeks, IEnumerable<string> allGames, string language)
+        {
+            if (!lastTwoWeeks.Any() && !allGames.Any())
+                return default;
+
+            var today = DateTime.Now;
+
+            GeminiApiRequest body = new GeminiApiRequest()
+            {
+                // -60 days to give a breath for out of date llm models. 
+                Contents = new List<Content>
+                {
+                    new Content {
+                        Parts = new List<PartRequest> {
+                            new PartRequest {
+                                Text = $@"Role: You are an enthusiastic, expert Gaming Analyst specializing in predictive trend mapping. Your goal is to analyze a user's gaming history and generate a high-quality, structured forecast of upcoming video game releases that they will love.
+
+                                          Step 1: User Analysis & Data Sourcing
+                                          
+                                          Analyze Library: Examine the user's full library [{string.Join(", ", allGames)}] and their activity from the last two weeks [{string.Join(", ", lastTwoWeeks)}].
+                                          
+                                          Prioritize Relevance: Focus on upcoming titles that match the genres, gameplay loops, and themes found in [{string.Join(", ", lastTwoWeeks)}]. Use [{string.Join(", ", allGames)}] for broader context on long-term interests.
+                                          
+                                          Filter Logic: - Status: Only include games that are not yet released.
+                                          
+                                          Development: Include ""Alpha"" stage games, but exclude ""Beta"" or ""Early Access"" titles unless they are brand new and unreleased.
+                                          
+                                          Safety: Strictly exclude any games with political, adult, or immoral themes.
+                                          
+                                          Step 2: Selection Criteria
+                                          
+                                          Recommend 5-8 games in total.
+                                          
+                                          Timeline: Focus on games releasing within the next 6-12 months from {today.AddDays(-60).ToString("MM/dd/yyyy")} (MM/dd/yyyy).
+                                          
+                                          The Wildcard: You must include exactly one ""wildcard"" entry. This must be a real, highly anticipated upcoming game that is not thematically connected to the user's usual genres but serves as a surprising, high-quality recommendation.
+                                          
+                                          Step 3: Output Requirements:
+                                              Strictly JSON (no extra text) adhering to {UpcomingGameReleaseSchema}.
+                                          
+                                              Example format:
+                                              [
+                                                {{
+                                                  ""id"": 1,
+                                                  ""name"": ""Game Title"",
+                                                  ""releaseDate"": ""2025-06-15T00:00:00"",
+                                                  ""genres"": [""Action"", ""RPG""],
+                                                  ""platforms"": [""PC"", ""PlayStation 5"", ""Xbox Series X""],
+                                                  ""description"": ""Brief description of the game and why it matches the user's interests"",
+                                                  ""anticipation"": 8
+                                                }}
+                                              ].
+                                          
+                                          Language: Respond entirely in [{language}]."
+                            }
+                        }
+                    }
+                }
+            };
+            return body;
+        }
+
         public string TMW2PlaySchema = @"{
                                               ""$schema"": ""https://json-schema.org/draft/2020-12/schema"",
                                               ""title"": ""Game Schema"",
@@ -255,5 +317,68 @@ namespace TMW2Play.Domain.Core.Gemini
                                               ""additionalProperties"": false
                                             }";
 
+        public string UpcomingGameReleaseSchema = @"{
+                                              ""$schema"": ""https://json-schema.org/draft/2020-12/schema"",
+                                              ""title"": ""Upcoming Game Release Schema"",
+                                              ""description"": ""Schema for upcoming game releases"",
+                                              ""type"": ""object"",
+                                              ""items"": {
+                                                ""type"": ""object"",
+                                                ""properties"": {
+                                                  ""id"": {
+                                                    ""description"": ""The unique identifier for the game"",
+                                                    ""type"": ""number""
+                                                  },
+                                                  ""name"": {
+                                                    ""description"": ""Name of the game"",
+                                                    ""type"": ""string""
+                                                  },
+                                                  ""releaseDate"": {
+                                                    ""description"": ""Expected release date of the game"",
+                                                    ""type"": ""string""
+                                                  },
+                                                  ""genres"": {
+                                                    ""description"": ""Array of genres the game belongs to, up to 3 genres"",
+                                                    ""type"": ""array"",
+                                                    ""items"": {
+                                                      ""type"": ""string""
+                                                    },
+                                                    ""examples"": [
+                                                    [""Complex Strategy"", ""Team Play"", ""Esports""]
+                                                  ]
+                                                  },
+                                                  ""platforms"": {
+                                                    ""description"": ""Array of platforms the game will be available on"",
+                                                    ""type"": ""array"",
+                                                    ""items"": {
+                                                      ""type"": ""string""
+                                                    },
+                                                    ""examples"": [
+                                                      [""PC"", ""PlayStation 5"", ""Xbox Series X""]
+                                                    ]
+                                                  },
+                                                  ""description"": {
+                                                    ""description"": ""A description of the game short explaining how it will be and what to expect, bringing interest to search about it"",
+                                                    ""type"": ""string""
+                                                  },
+                                                  ""anticipation"": {
+                                                    ""description"": ""Anticipation score (1-10)"",
+                                                    ""type"": ""number"",
+                                                    ""minimum"": 1,
+                                                    ""maximum"": 10
+                                                  }
+                                                },
+                                                ""required"": [
+                                                  ""id"",
+                                                  ""name"",
+                                                  ""releaseDate"",
+                                                  ""genres"",
+                                                  ""platforms"",
+                                                  ""description"",
+                                                  ""anticipation""
+                                                ],
+                                                ""additionalProperties"": false
+                                              }
+                                            }";
     }
 }

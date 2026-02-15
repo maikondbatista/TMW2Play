@@ -7,9 +7,11 @@ import { PlayerModel, PlayerSummaryModel } from '../models/steam/player-summary.
 import { GameModel, OwnedGamesModel } from '../models/steam/owned-games.model';
 import { SteamModel } from '../models/steam/steam.model';
 import { RecommendationModel } from '../models/llm/recommendation.model';
-import { PartModel } from '../models/llm/part.model';
 import { UserModel } from '../models/steam/user.model';
 import { HumiliateMyLibraryRequest } from '../models/llm/humiliate-my-library.model';
+import { UpcomingGameModel } from '../models/llm/upcoming-game.model';
+import { TranslocoService } from '@jsverse/transloco';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
@@ -19,9 +21,13 @@ export class SharedService {
     private steamController: string = '/steam/';
     private geminiController: string = '/gemini/';
     private apiUrl!: string;
+    private locale!: string;
 
-    constructor(private http: HttpClient, private cookie: CookieService) {
+    constructor(private http: HttpClient, private cookie: CookieService, private transloco: TranslocoService, private datePipe: DatePipe) {
         this.apiUrl = environment.apiUrl;
+        this.transloco.langChanges$.subscribe((lang) => {
+            this.locale = lang;
+        });
     }
 
     public humiliateMyLibrary(request: HumiliateMyLibraryRequest): Observable<string> {
@@ -30,6 +36,28 @@ export class SharedService {
 
     tellMeWhatToPlay(lastTwoWeeks: string[], allGames: string[]): Observable<RecommendationModel[]> {
         return this.http.post<RecommendationModel[]>(`${this.apiUrl + this.geminiController}tell-me-what-to-play`, { lastTwoWeeks, allGames });
+    }
+
+    private isValidDateString(dateString: any): boolean {
+        const parts = dateString.split('-');
+        if (parts.length < 3) {
+            return false;
+        }
+        return true;
+    }
+
+    tellMeWhatIsUpcoming(lastTwoWeeks: string[], allGames: string[]): Observable<UpcomingGameModel[]> {
+        return this.http.post<UpcomingGameModel[]>(`${this.apiUrl + this.geminiController}tell-me-what-is-upcoming`, { lastTwoWeeks, allGames }).pipe(
+            map((games) => games.map((game) => {
+                const isValidDate = this.isValidDateString(game.releaseDate);
+                return {
+                    ...game,
+                    releaseDate: isValidDate
+                        ? this.datePipe.transform(game.releaseDate, 'shortDate', undefined, this.locale)
+                        : game.releaseDate
+                };
+            }))
+        );
     }
 
     public getUserId(username: string): Observable<string> {

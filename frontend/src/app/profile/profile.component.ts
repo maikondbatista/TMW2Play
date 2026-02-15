@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, switchMap, take } from 'rxjs';
+import { forkJoin, take } from 'rxjs';
 import { SharedService } from '../shared/services/shared.service';
 import { SignalService } from '../shared/services/signal.service';
 import { ChartsTabComponent } from './charts-tab/charts-tab.component';
