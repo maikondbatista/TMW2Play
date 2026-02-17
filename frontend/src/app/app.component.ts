@@ -27,6 +27,6 @@ export class AppComponent {
   }
 
   get selectedLanguageImg() {
-    return 'assets/img/' + this.transloco.getActiveLang() + '.png';
+    return '/assets/img/' + this.transloco.getActiveLang() + '.png';
   }
 }
