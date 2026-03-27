@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection, isDevMode, LOCALE_ID } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 import { registerLocaleData, DatePipe } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import enUs from '@angular/common/locales/en';
@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
   providers:
     [
       provideZoneChangeDetection({ eventCoalescing: true }),
-      provideRouter(routes),
+      provideRouter(routes, withHashLocation()),
       provideToastr({ positionClass: 'toast-bottom-right' }),
       provideCharts({ registerables: [PieController, ArcElement, Colors, Tooltip, Legend] }),
       provideHttpClient(withInterceptorsFromDi()),
