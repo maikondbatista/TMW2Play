@@ -12,3 +12,4 @@ jobs:
         with:
           base-branch: main
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          project-path: frontend
