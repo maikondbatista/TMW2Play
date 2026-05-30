@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-# Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap: # Sitemap: https://tmw2play.com.br/sitemap.xml
 
 # LLMs and AI crawlers
 User-agent: GPTBot
