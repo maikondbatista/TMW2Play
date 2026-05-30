@@ -1,0 +1,27 @@
+# TMW2Play — Tell Me What to Play
+
+> AI-powered game recommendation platform. Connect your Steam account and let Google Gemini AI analyze your library to suggest what to play next.
+
+## Pages
+
+- [Home](/): Landing page with Steam username input and app overview
+- [Profile](/Profile/:steamUser): User's Steam profile with game statistics, charts, and AI-powered recommendations
+
+## Features
+
+- Steam library analysis — fetches and analyzes owned games, playtime, and achievements
+- AI game recommendations — Google Gemini generates personalized suggestions based on your play history
+- Interactive statistics — charts and insights about your gaming habits
+- Multi-language — English (EN-US) and Brazilian Portuguese (PT-BR)
+- Responsive design — works on desktop and mobile
+
+## Tech Stack
+
+- Angular 21 (frontend SPA)
+- .NET 10 / ASP.NET Core (REST API backend)
+- Google Gemini API (AI recommendations)
+- Steam Web API (game library data)
+
+## API
+
+The backend REST API is just a gateway, nothing special. It has just some endpoints relate to Steam profile loading and AI recommendation generation.

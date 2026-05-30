@@ -33,6 +33,16 @@
                 "glob": "CNAME",
                 "input": "src/app",
                 "output": "/"
+              },
+              {
+                "glob": "robots.txt",
+                "input": "public",
+                "output": "/"
+              },
+              {
+                "glob": "llms.txt",
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
@@ -149,5 +159,8 @@
     "@schematics/angular:resolver": {
       "typeSeparator": "."
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

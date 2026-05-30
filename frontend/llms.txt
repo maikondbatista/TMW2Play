@@ -1,0 +1,35 @@
+# TMW2Play — Tell Me What to Play
+
+> AI-powered game recommendation platform. Analyzes your Steam library and uses LLM to suggest what to play next, to humiliate your library and recent gameplays and also to tell what games are upcoming.
+
+## Project
+
+- **Type:** Full-stack web application
+- **Frontend:** Angular 21, Bootstrap 5, Chart.js, Transloco (i18n: EN-US, PT-BR)
+- **Backend:** .NET 10 (ASP.NET Core), C#, Domain-Driven Design
+- **AI:** Google Gemini API
+- **Gaming:** Steam Web API
+- **DevOps:** Docker, GitHub Actions
+
+## Structure
+
+- `frontend/` — Angular SPA
+- `backend/TMW2Play.Api/` — ASP.NET Core REST API, it Works like a gateway between frontend and Steam and LLM APIs
+- `.github/` — CI/CD workflows
+
+## Features
+
+- Steam profile analysis and game library import
+- AI-powered game recommendations via Google Gemini
+- Interactive statistics and charts (Chart.js)
+- Multi-language support (English and Brazilian Portuguese)
+- Responsive design (Bootstrap 5)
+
+## Routes
+
+- `/` — Home page
+- `/Profile/:steamUser` — User profile with game stats and AI recommendations
+
+## Source
+
+- GitHub: https://github.com/maikondbatista/TMW2Play
