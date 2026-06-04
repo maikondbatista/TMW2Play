@@ -19,7 +19,7 @@ import { DatePipe } from '@angular/common';
 export class SharedService {
 
     private steamController: string = '/steam/';
-    private geminiController: string = '/gemini/';
+    private openRouterController: string = '/OpenRouter/';
     private apiUrl!: string;
     private locale!: string;
 
@@ -31,11 +31,11 @@ export class SharedService {
     }
 
     public humiliateMyLibrary(request: HumiliateMyLibraryRequest): Observable<string> {
-        return this.http.post(`${this.apiUrl + this.geminiController}humiliate-my-library`, request, { responseType: 'text' });
+        return this.http.post(`${this.apiUrl + this.openRouterController}humiliate-my-library`, request, { responseType: 'text' });
     }
 
     tellMeWhatToPlay(lastTwoWeeks: string[], allGames: string[]): Observable<RecommendationModel[]> {
-        return this.http.post<RecommendationModel[]>(`${this.apiUrl + this.geminiController}tell-me-what-to-play`, { lastTwoWeeks, allGames });
+        return this.http.post<RecommendationModel[]>(`${this.apiUrl + this.openRouterController}tell-me-what-to-play`, { lastTwoWeeks, allGames });
     }
 
     private isValidDateString(dateString: any): boolean {
@@ -47,7 +47,7 @@ export class SharedService {
     }
 
     tellMeWhatIsUpcoming(lastTwoWeeks: string[], allGames: string[]): Observable<UpcomingGameModel[]> {
-        return this.http.post<UpcomingGameModel[]>(`${this.apiUrl + this.geminiController}tell-me-what-is-upcoming`, { lastTwoWeeks, allGames }).pipe(
+        return this.http.post<UpcomingGameModel[]>(`${this.apiUrl + this.openRouterController}tell-me-what-is-upcoming`, { lastTwoWeeks, allGames }).pipe(
             map((games) => games.map((game) => {
                 const isValidDate = this.isValidDateString(game.releaseDate);
                 return {

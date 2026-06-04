@@ -1,37 +1,33 @@
-﻿using Json.Schema;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Caching.Hybrid;
+using Json.Schema;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using TMW2Play.Domain.Core.Gemini;
+using System.Text.RegularExpressions;
+using TMW2Play.Domain.Core.OpenRouter;
 using TMW2Play.Domain.DTO;
-using TMW2Play.Domain.Entities.Gemini.JsonPrompt;
-using TMW2Play.Domain.Entities.Gemini.Response;
+using TMW2Play.Domain.Entities.OpenRouter.JsonPrompt;
+using TMW2Play.Domain.Entities.OpenRouter.Response;
 using TMW2Play.Domain.Interfaces.Services;
 using TMW2Play.Service.Domain.Services;
 
-namespace TMW2Play.Infra.HTTP.Gemini
+namespace TMW2Play.Service.Services.OpenRouter
 {
-    public class GeminiHttpService(IHttpService httpService, GeminiApiConfiguration geminiConfig, INotificationService notification) : IGeminiHttpService
+    public class OpenRouterHttpService(IHttpService httpService, OpenRouterApiConfiguration openRouterConfig, INotificationService notification) : IOpenRouterHttpService
     {
-        /// <summary>
-        /// Returns the ML comment from user games.
-        /// </summary>
-
         public async Task<string> HumiliateMyLibrary(HumiliateMyLibraryRequest request, string language, CancellationToken cancellationToken = default)
         {
             try
             {
-                var generateGamerCommentUrl = geminiConfig.LLMUrl();
-                var body = geminiConfig.HumiliateMyLibrary(request, language);
+                var url = openRouterConfig.LLMUrl();
+                var body = openRouterConfig.HumiliateMyLibrary(request, language);
 
                 if (body is null)
                 {
                     notification.AddNotification("No games added to library.");
                     return null;
                 }
-                var response = await httpService.PostAsync<GeminiApiResponse>(generateGamerCommentUrl, body, cancellationToken, GeminiAuthHeaders());
-                var comment = response?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text;
+
+                var response = await httpService.PostAsync<OpenRouterApiResponse>(url, body, cancellationToken, OpenRouterAuthHeaders());
+                var comment = response?.Choices?.FirstOrDefault()?.Message?.Content;
 
                 if (string.IsNullOrWhiteSpace(comment))
                 {
@@ -41,30 +37,28 @@ namespace TMW2Play.Infra.HTTP.Gemini
 
                 return CleanJson(comment);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                notification.AddNotification($"An error occurred while fetching humiliation.");
+                notification.AddNotification("An error occurred while fetching humiliation.");
             }
             return null;
         }
 
-        /// <summary>
-        /// Returns a list of recommended games based on user's playtime and library.
-        /// </summary>
         public async Task<List<GameRecommendation>> TellMeWhatToPlay(List<string> GamesWPlayTime, List<string> allGames, string language, CancellationToken cancellationToken = default)
         {
             try
             {
-                var generateGamerCommentUrl = geminiConfig.LLMUrl();
-                var body = geminiConfig.TellMeWhatToPlayBody(GamesWPlayTime, allGames, language);
+                var url = openRouterConfig.LLMUrl();
+                var body = openRouterConfig.TellMeWhatToPlayBody(GamesWPlayTime, allGames, language);
 
                 if (body is null)
                 {
                     notification.AddNotification("No games added to library.");
                     return [];
                 }
-                var response = await httpService.PostAsync<GeminiApiResponse>(generateGamerCommentUrl, body, cancellationToken, GeminiAuthHeaders());
-                var jsonRecommendation = response?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text;
+
+                var response = await httpService.PostAsync<OpenRouterApiResponse>(url, body, cancellationToken, OpenRouterAuthHeaders());
+                var jsonRecommendation = response?.Choices?.FirstOrDefault()?.Message?.Content;
 
                 if (string.IsNullOrWhiteSpace(jsonRecommendation))
                 {
@@ -80,7 +74,7 @@ namespace TMW2Play.Infra.HTTP.Gemini
                     return [];
                 }
 
-                var schema = JsonSchema.FromText(geminiConfig.TMW2PlaySchema);
+                var schema = JsonSchema.FromText(openRouterConfig.TMW2PlaySchema);
 
                 foreach (var item in jsonArray)
                 {
@@ -89,7 +83,7 @@ namespace TMW2Play.Infra.HTTP.Gemini
                     if (!result.IsValid)
                     {
                         notification.AddNotification("One or more recommendations do not match the required schema: " +
-                            string.Join("; ", result.Details?.Select(d => d) ?? []));
+                            string.Join("; ", result.Details?.Select(d => d.ToString()) ?? []));
                         return [];
                     }
                 }
@@ -102,14 +96,14 @@ namespace TMW2Play.Infra.HTTP.Gemini
 
                     notification.AddNotification("Failed to parse recommended games response.");
                 }
-                catch (JsonException ex)
+                catch (JsonException)
                 {
-                    notification.AddNotification($"Deserialization error");
+                    notification.AddNotification("Deserialization error");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                notification.AddNotification($"An error occurred while fetching recommended games");
+                notification.AddNotification("An error occurred while fetching recommended games");
             }
             return [];
         }
@@ -118,8 +112,8 @@ namespace TMW2Play.Infra.HTTP.Gemini
         {
             try
             {
-                var generateUrl = geminiConfig.LLMUrl();
-                var body = geminiConfig.TellMeWhatIsUpcomingBody(request.LastTwoWeeks, request.AllGames, language);
+                var url = openRouterConfig.LLMUrl();
+                var body = openRouterConfig.TellMeWhatIsUpcomingBody(request.LastTwoWeeks, request.AllGames, language);
 
                 if (body is null)
                 {
@@ -127,8 +121,8 @@ namespace TMW2Play.Infra.HTTP.Gemini
                     return [];
                 }
 
-                var response = await httpService.PostAsync<GeminiApiResponse>(generateUrl, body, cancellationToken, GeminiAuthHeaders());
-                var jsonUpcoming = response?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text;
+                var response = await httpService.PostAsync<OpenRouterApiResponse>(url, body, cancellationToken, OpenRouterAuthHeaders());
+                var jsonUpcoming = response?.Choices?.FirstOrDefault()?.Message?.Content;
 
                 if (string.IsNullOrWhiteSpace(jsonUpcoming))
                 {
@@ -144,7 +138,7 @@ namespace TMW2Play.Infra.HTTP.Gemini
                     return [];
                 }
 
-                var schema = JsonSchema.FromText(geminiConfig.UpcomingGameReleaseSchema);
+                var schema = JsonSchema.FromText(openRouterConfig.UpcomingGameReleaseSchema);
                 foreach (var item in jsonArray)
                 {
                     var jsonElement = JsonSerializer.SerializeToElement(item);
@@ -152,7 +146,7 @@ namespace TMW2Play.Infra.HTTP.Gemini
                     if (!result.IsValid)
                     {
                         notification.AddNotification("One or more recommendations do not match the required schema: " +
-                            string.Join("; ", result.Details?.Select(d => d) ?? []));
+                            string.Join("; ", result.Details?.Select(d => d.ToString()) ?? []));
                         return [];
                     }
                 }
@@ -165,28 +159,42 @@ namespace TMW2Play.Infra.HTTP.Gemini
 
                     notification.AddNotification("Failed to parse recommended games response.");
                 }
-                catch (JsonException ex)
+                catch (JsonException)
                 {
-                    notification.AddNotification($"Deserialization error");
+                    notification.AddNotification("Deserialization error");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                notification.AddNotification($"An error occurred while fetching upcoming games.");
+                notification.AddNotification("An error occurred while fetching upcoming games.");
             }
             return [];
         }
 
-        private Dictionary<string, string> GeminiAuthHeaders()
+        private Dictionary<string, string> OpenRouterAuthHeaders()
         {
             return new Dictionary<string, string>
-                {
-                    { "X-goog-api-key", geminiConfig.LLMApiKey }
-                };
+            {
+                { "Authorization", $"Bearer {openRouterConfig.ApiKey}" },
+                { "HTTP-Referer", "https://tmw2play.com.br" },
+                { "X-Title", "TMW2Play" }
+            };
         }
 
-        private static string CleanJson(string input) =>
-            input.Replace("`", string.Empty).Replace("json", string.Empty);
+        private static string CleanJson(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return input;
+
+            if (input.Contains("```json"))
+                input = input.Split("```json")[1].Split("```")[0];
+            else if (input.Contains("```"))
+                input = input.Split("```")[1].Split("```")[0];
+
+            // Fix misplaced comma inside array string: ["foo," "bar"] -> ["foo", "bar"]
+            input = Regex.Replace(input, @"""([^""]*),(""\s*"")", "\"$1\", \"");
+
+            return input.Trim();
+        }
 
         private static bool TryParseJsonArray(string json, out JsonArray jsonArray, out string error)
         {
@@ -200,11 +208,18 @@ namespace TMW2Play.Infra.HTTP.Gemini
                     return true;
                 }
 
-                if (node is JsonObject obj && obj["recommendations"] is JsonArray recommendationsArray)
+                if (node is JsonObject obj)
                 {
-                    jsonArray = recommendationsArray;
-                    error = string.Empty;
-                    return true;
+                    var knownKeys = new[] { "recommendations", "games", "all_games", "data", "results" };
+                    foreach (var key in knownKeys)
+                    {
+                        if (obj[key] is JsonArray nestedArray)
+                        {
+                            jsonArray = nestedArray;
+                            error = string.Empty;
+                            return true;
+                        }
+                    }
                 }
 
                 jsonArray = new JsonArray();

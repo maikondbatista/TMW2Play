@@ -28,7 +28,6 @@ export const appConfig: ApplicationConfig = {
       provideToastr({ positionClass: 'toast-bottom-right' }),
       provideCharts({ registerables: [PieController, ArcElement, Colors, Tooltip, Legend] }),
       provideHttpClient(withInterceptorsFromDi()),
-      provideHttpClient(),
       provideAnimations(),
       DatePipe,
       {

@@ -1,4 +1,4 @@
-﻿namespace TMW2Play.Domain.Entities.Gemini.JsonPrompt
+namespace TMW2Play.Domain.Entities.OpenRouter.JsonPrompt
 {
     public class GameRecommendation
     {
