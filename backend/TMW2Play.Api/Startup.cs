@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi;
+using Microsoft.OpenApi;
 using Microsoft.AspNetCore.RateLimiting;
 using TMW2Play.Api.Configuration;
 using System.Threading.RateLimiting;
@@ -23,7 +23,7 @@ namespace TMW2Play.Api
             });
 
             services.AddSteam(Configuration);
-            services.AddGeminiAi(Configuration);
+            services.AddOpenRouterAi(Configuration);
             services.AddServices();
             services.AddHybridCache();
             services.AddRateLimiter(options =>
