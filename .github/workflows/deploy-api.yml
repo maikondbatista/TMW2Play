@@ -31,7 +31,7 @@ jobs:
       - name: Replace API keys
         run: |
           sed -i "s|YOUR_STEAM_API_KEY|${{ secrets.STEAM_API_KEY }}|g" publish/appsettings.json
-          sed -i "s|YOUR_GEMINI_API_KEY|${{ secrets.GEMINI_API_KEY }}|g" publish/appsettings.json
+          sed -i "s|YOUR_OPENROUTER_API_KEY|${{ secrets.OPENROUTER_API_KEY }}|g" publish/appsettings.json
         
       - name: Deploy to Somee
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
