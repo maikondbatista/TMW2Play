@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { take } from 'rxjs';
 import { TwoWeeksFilter } from '../../../shared/constants/filters/two-weeks.filter';
@@ -11,6 +11,7 @@ import { MinutesToHoursPipe } from '../../../shared/pipes/minutes-to-hours.pipe'
   selector: 'app-humiliate-my-library',
   imports: [TranslocoModule],
   templateUrl: './humiliate-my-library.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './humiliate-my-library.component.scss'
 })
 export class HumiliateMyLibraryComponent {

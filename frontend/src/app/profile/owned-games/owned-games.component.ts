@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, ChangeDetectionStrategy } from '@angular/core';
 import { GameModel } from '../../shared/models/steam/owned-games.model';
 import { LastPlayedPipe } from '../../shared/pipes/last-played.pipe';
 import { PlayTimePipe } from '../../shared/pipes/play-time.pipe';
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
   imports: [LastPlayedPipe, PlayTimePipe, TranslocoModule, CommonModule],
   standalone: true,
   templateUrl: './owned-games.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './owned-games.component.scss'
 })
 export class OwnedGamesComponent {
