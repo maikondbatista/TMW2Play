@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, take } from 'rxjs';
 import { SharedService } from '../shared/services/shared.service';
@@ -17,6 +17,7 @@ const imports = [SummaryHeaderComponent, OwnedGamesComponent, ChartsTabComponent
   providers: [SharedService],
   standalone: true,
   templateUrl: './profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements AfterViewInit {

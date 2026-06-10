@@ -1,5 +1,5 @@
 import { LowerCasePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PlayerModel } from '../../shared/models/steam/player-summary.model';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -8,6 +8,7 @@ import { TranslocoModule } from '@jsverse/transloco';
   selector: 'app-summary-header',
   imports: [LowerCasePipe, FormsModule, TranslocoModule],
   templateUrl: './summary-header.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './summary-header.component.scss'
 })
 export class SummaryHeaderComponent {
