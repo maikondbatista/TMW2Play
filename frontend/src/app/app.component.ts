@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
   selector: 'app-root',
   imports: [RouterOutlet, TranslocoModule, NgbDropdownModule],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
