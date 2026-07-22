@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslocoModule } from '@jsverse/transloco';
 import { SharedService } from '../../../shared/services/shared.service';
@@ -10,6 +10,7 @@ import { LLMBaseComponent } from '../shared/llm-base.component';
   selector: 'app-tell-me-what-is-upcoming',
   imports: [TranslocoModule],
   templateUrl: './tell-me-what-is-upcoming.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './tell-me-what-is-upcoming.component.scss',
 })
 export class TellMeWhatIsUpcomingComponent extends LLMBaseComponent<UpcomingGameModel> {

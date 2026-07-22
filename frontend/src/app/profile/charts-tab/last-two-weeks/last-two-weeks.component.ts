@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AdvancedPieChartModel } from '../../../shared/models/charts/advanced-pie-chart.model';
@@ -9,6 +9,7 @@ import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
   imports: [BaseChartDirective, TranslocoModule],
   standalone: true,
   templateUrl: './last-two-weeks.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './last-two-weeks.component.scss'
 })
 export class LastTwoWeeksComponent {

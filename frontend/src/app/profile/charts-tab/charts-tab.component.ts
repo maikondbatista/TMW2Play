@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, ChangeDetectionStrategy } from '@angular/core';
 import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TwoWeeksFilter } from '../../shared/constants/filters/two-weeks.filter';
 import { AdvancedPieChartModel } from '../../shared/models/charts/advanced-pie-chart.model';
@@ -18,6 +18,7 @@ const imports = [NgbNavModule, NgbAlertModule, LastTwoWeeksComponent, AllTimeCom
   standalone: true,
   providers: [MinutesToHoursPipe],
   templateUrl: './charts-tab.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './charts-tab.component.scss'
 })
 export class ChartsTabComponent {
