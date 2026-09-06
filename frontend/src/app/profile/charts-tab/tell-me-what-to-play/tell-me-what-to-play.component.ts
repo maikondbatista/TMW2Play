@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SharedService } from '../../../shared/services/shared.service';
 import { SignalService } from '../../../shared/services/signal.service';
@@ -10,6 +10,7 @@ import { LLMBaseComponent } from '../shared/llm-base.component';
   selector: 'app-tell-me-what-to-play',
   imports: [TranslocoModule],
   templateUrl: './tell-me-what-to-play.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './tell-me-what-to-play.component.scss'
 })
 export class TellMeWhatToPlayComponent extends LLMBaseComponent<RecommendationModel> {
