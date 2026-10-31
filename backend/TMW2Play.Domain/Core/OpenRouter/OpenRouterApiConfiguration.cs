@@ -33,22 +33,22 @@ PERSONALITY TRAITS:
 
 RESPONSE RULES (follow in order):
 Rule 1: Start with a hype, gaming-themed exclamation!
-Rule 2: Include at least one obscure gaming fact or trivia, ideally from the user's total_games library. If none fit, use a widely known game to illustrate a point.
-Rule 3: Make a difficulty comparison — contrast the grind suggested by playtimes in recent_games vs. total_games, or compare to a famously hard game/moment.
+Rule 2: Include at least one obscure gaming fact or trivia, ideally from the user's [Games] library. If none fit, use a widely known game to illustrate a point.
+Rule 3: Make a difficulty comparison — contrast the grind suggested by playtimes in recent_games vs. [Games], or compare to a famously hard game/moment.
 Rule 4: Make an ironic or self-aware joke about gaming culture or your own nerdy tendencies. (e.g., ""Says the AI parsing JSON for a living."")
 Rule 5: Do not give compliments. End with a brief, ironic justification that mockingly ""explains"" the user's playtime patterns.
 Rule 6: Keep the final response under 250 words.
 Rule 7: Always respond in the language specified by the user.
-Rule 8 & 9: CRITICAL — Prioritize jokes and facts from the user's total_games list. You may briefly reference widely known, iconic games only to enrich a comparison. Avoid deep-cut references to games not present or not iconic.
+Rule 8 & 9: CRITICAL — Prioritize jokes and facts from the user's [Games] list. You may briefly reference widely known, iconic games only to enrich a comparison. Avoid deep-cut references to games not present or not iconic.
 Rule 10: ABSOLUTELY NO politics, social commentary, or offensive content of any kind.
 Rule 11: The entire comment must be an ironic roast of the user's playtime. No sincere praise.
 Rule 12: Do not mention or compare yourself to the user or your own nature.
 
 CORE ANALYSIS:
-- If recent_games is empty: Mock the inactivity by comparing it to dormant periods in total_games.
+- If recent_games is empty: Mock the inactivity by comparing it to dormant periods in [Games].
 - If recent_games has very low playtimes: Jest about ""game tourism,"" tutorial hell, or commitment issues.
-- If recent_games shows a binge on one game: Compare that obsession to the more diversified or abandoned total_games library.
-- Always use total_games as the backdrop to give depth to the roast.
+- If recent_games shows a binge on one game: Compare that obsession to the more diversified or abandoned [Games] library.
+- Always use [Games] as the backdrop to give depth to the roast.
 - The Playtime: Look for contradictions (e.g., 1000 hrs in one game, then 0.5 in a sequel last week).
 - Gamer Logic: Relate playtime to in-game achievements or real-world skills.
 
@@ -57,7 +57,7 @@ OUTPUT: Generate only the final roast text, following all Rules (1-12). No expla
             var userPrompt = $@"recent_games: {string.Join(", ", recentGames.Any() ? recentGames.Select(s => "(" + s.Game + ": " + s.Time + " hours)").ToList() : new List<string> { "Nothing played within last two weeks." })}
 Each entry is Game Name: Playtime in hours. Games played within the last two weeks.
 
-total_games: {string.Join(", ", playedGames.Any() ? playedGames.Select(s => "(" + s.Game + ": " + s.Time + " hours)").ToList() : new List<string> { "Nothing ever played." })}
+[Games]: {string.Join(", ", playedGames.Any() ? playedGames.Select(s => "(" + s.Game + ": " + s.Time + " hours)").ToList() : new List<string> { "Nothing ever played." })}
 Each entry is Game Name: Playtime in hours. All-time account playtime (only games actually played).
 
 language: {language}. Your entire output must be in this language, using its specific gamer slang and cultural humor.";
@@ -93,7 +93,7 @@ CRITICAL OUTPUT RULES — VIOLATIONS WILL BREAK THE APP:
 
 GAME SELECTION RULES:
 - Use games released in the last 5 years.
-- If recently_played is empty, infer trends from all_games (genres, standout titles).
+- If [Recently Played] is empty, infer trends from all_games (genres, standout titles).
 - For referenceGame: use the most relevant game from the user's library, or ""Trend: [Genre]"" if no direct match exists.
 - Avoid games in the same series as games in the user's library.
 - Avoid overrecommended defaults.
@@ -132,7 +132,7 @@ VALID OUTPUT FORMAT (array of 10 objects, nothing else):
 THE RESPONSE MUST TO BE VALIDATED AGAINST THIS SCHEMA: {TMW2PlaySchema}";
 
             var userPrompt = $@"all_games: [{string.Join(", ", allGames)}]
-recently_played: [{string.Join(", ", lastTwoWeeks)}]
+[Recently Played]: [{string.Join(", ", lastTwoWeeks)}]
 language: {language}";
 
             return new OpenRouterApiRequest
@@ -190,7 +190,7 @@ Respond strictly as a JSON array (no extra text).
 THE RESPONSE MUST TO BE VALIDATED AGAINST THIS SCHEMA: {UpcomingGameReleaseSchema}";
 
             var userPrompt = $@"all_games: [{string.Join(", ", allGames)}]
-recently_played: [{string.Join(", ", lastTwoWeeks)}]
+[Recently Played]: [{string.Join(", ", lastTwoWeeks)}]
 language: {language}";
 
             return new OpenRouterApiRequest

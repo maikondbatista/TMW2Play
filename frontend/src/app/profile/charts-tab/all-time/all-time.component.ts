@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AdvancedPieChartModel } from '../../../shared/models/charts/advanced-pie-chart.model';
@@ -9,6 +9,7 @@ import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
   imports: [BaseChartDirective, TranslocoModule],
   standalone: true,
   templateUrl: './all-time.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './all-time.component.scss'
 })
 export class AllTimeComponent {
@@ -28,7 +29,7 @@ export class AllTimeComponent {
     responsive: false
   };
 
-  constructor(private translationService: TranslocoService) {
+  constructor(private translationService: TranslocoService, private changeDetector: ChangeDetectorRef) {
   }
   ngOnInit() {
     const playTimeHours = this.translationService.translate('profile.chartsTab.allTime.playTimeHours');
@@ -40,6 +41,7 @@ export class AllTimeComponent {
             { data: this.data.map(d => d.value), label: playTimeHours }
           ]
         };
+        this.changeDetector.markForCheck();
       }
     }, 1000);
   }
