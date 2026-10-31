@@ -1,105 +1,101 @@
-# TMW2Play - Tell Me What to Play
+# TMW2Play — Tell Me What to Play
 
-A modern web application that helps gamers decide what to play next from their Steam library using AI-powered recommendations.
+TMW2Play helps players explore their Steam libraries, review playtime, get AI game recommendations, and discover upcoming releases.
 
-## 🚀 Quick Start
+## Features
 
-### Prerequisites
-- Docker and Docker Compose
-- .NET 10 SDK (for local development)
-- Node.js 20+ (for local development)
-- Steam Web API key ([Get it here](https://steamcommunity.com/dev/apikey))
-- Google Gemini API key ([Get it here](https://makersuite.google.com/app/apikey))
+- Steam profile lookup and owned-game library view. Profiles must be public.
+- Playtime statistics for the last two weeks and all time.
+- AI recommendations based on the player's library and recent playtime.
+- AI-generated humorous commentary on the player's library.
+- AI recommendations for upcoming games.
+- English (US) and Brazilian Portuguese, with the selected language sent to the API.
+- Responsive Angular interface and interactive charts.
 
-### Environment Setup
-1. Update the `appsettings.json` in the backend folder:
-```json
-{
-  "SteamApiKey": "YOUR_STEAM_API_KEY",
-  "GeminiApiKey": "YOUR_GEMINI_API_KEY"
-}
+## Requirements
+
+- Docker and Docker Compose for containerized setup.
+- .NET 10 SDK for backend development.
+- Node.js 22 and npm for frontend development.
+- Steam Web API key: [request a key](https://steamcommunity.com/dev/apikey).
+- OpenRouter API key: [create an API key](https://openrouter.ai/keys).
+
+## Configuration
+
+The API reads `SteamAPIKey`, `OpenRouterAPIKey`, and `OpenRouterModel` from .NET configuration. The configured model is `openrouter/free`; OpenRouter selects an available free model for each request ([model details](https://openrouter.ai/collections/free-models)).
+
+For local backend development, set credentials with .NET user secrets from the API project directory:
+
+```bash
+cd backend/TMW2Play.Api
+dotnet user-secrets set "SteamAPIKey" "YOUR_STEAM_API_KEY"
+dotnet user-secrets set "OpenRouterAPIKey" "YOUR_OPENROUTER_API_KEY"
+dotnet user-secrets set "OpenRouterModel" "openrouter/free"
 ```
 
-### Running with Docker
+Do not commit API keys. Production deployments use GitHub Actions secrets for Steam, OpenRouter, and hosting credentials.
+
+## Run with Docker
+
 ```bash
 docker compose up --build
 ```
-Access the application at `http://localhost:1010`
 
-### Local Development
+- Frontend: `http://localhost:1010`
+- Backend API: `http://localhost:1011`
 
-#### Frontend (Angular 21)
+The API needs valid Steam and OpenRouter keys in its runtime configuration for profile lookup and AI features.
+
+## Run locally
+
+### Backend
+
 ```bash
-cd frontend
-npm install
-ng serve --o
-```
-Frontend will be available at `http://localhost:4200`
-
-#### Backend (.NET 10)
-```bash
-cd backend
+cd backend/TMW2Play.Api
 dotnet restore
 dotnet run
 ```
-API will be available at `http://localhost:5262`
 
-## 🏗️ Architecture
+The API runs at `http://localhost:5262`; Swagger opens at `/swagger` in Development.
 
-### Frontend (Angular 21)
-- **Framework**: Angular 21
-- **State Management**: Angular Signals
-- **UI Components**: Bootstrap 5 + ng-bootstrap
-- **Charts**: Chart.js + ng2-charts
-- **Internationalization**: Transloco
-- **Environment Configurations**:
-  - Development: `environment.ts`
-  - Docker: `environment.docker.ts`
-  - Production: `environment.prod.ts`
+### Frontend
 
-### Key Features
-- 🌐 Multi-language support (EN-US, PT-BR)
-- 📊 Interactive game statistics
-- 🤖 AI-powered game recommendations
-- 🎮 Steam profile integration
-- 📱 Responsive design
-
-## 🛠️ Development Guide
-
-### Frontend Structure
-```
-frontend/
-├── src/
-│   ├── app/
-│   │   ├── home/           # Home page
-│   │   ├── profile/        # Profile features
-│   │   └── shared/         # Shared stuff
-│   ├── assets/
-│   │   ├── i18n/          # Translation files
-│   │   └── img/           # Images
-│   └── environments/      # Environment configurations
+```bash
+cd frontend
+npm ci
+npm start
 ```
 
-### Available Scripts
-- `ng serve`: Development server
-- `npm run build:docker`: Build optimized for Docker deployment
-- `npm run build:github`: GitHub Pages build
+Angular serves the app at `http://localhost:4200`.
 
-## 🤝 Contributing
-We welcome all contributions to improve TMW2Play! Here's how you can help:
+## Recent updates
 
-### 🐛 Report Issues
-- Found a bug? Feel free to open an issue
-- Include steps to reproduce the problem
-- Add screenshots if applicable
+README last changed on January 4, 2026. Since then, changes merged into `main` added or updated:
 
-### 💡 Suggest Improvements
-- Have an idea? We'd love to hear it! Open a discussion
-- Looking for new features? Share your suggestions
-- Propose UI/UX improvements
+- Upcoming game recommendations based on the player's library and recent playtime.
+- OpenRouter integration for AI recommendations and library commentary.
+- Language selector fixes and API language propagation.
+- Frontend deployment to GitHub Pages and backend deployment workflow for Somee.
+- `robots.txt`, sitemap, and `llms.txt` for site discovery.
+- Angular 22 migration and related chart, cookie, and notification dependencies.
 
-### 🔧 Submit Changes
-If you'd like to contribute with code feel free to submit a Pull Request
+The remote repository currently has no Git tags, so this summary uses changes merged into `main` rather than tagged release notes.
 
-## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Architecture
+
+- **Frontend:** Angular 22, Angular Signals, Bootstrap 5, ng-bootstrap, Transloco, Chart.js.
+- **Backend:** ASP.NET Core on .NET 10, Steam Web API, OpenRouter Chat Completions API.
+- **Deployment:** Docker Compose; GitHub Actions workflows for frontend and backend deployments.
+
+## Repository layout
+
+```text
+backend/       ASP.NET Core API and services
+frontend/      Angular application
+docs/          GitHub Pages site and static assets
+.github/       CI, deployment, and dependency update workflows
+```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
