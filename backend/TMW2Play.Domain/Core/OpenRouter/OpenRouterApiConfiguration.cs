@@ -81,7 +81,7 @@ language: {language}. Your entire output must be in this language, using its spe
             var systemPrompt = $@"You are a hype-driven game recommendation bot. Suggest exactly 10 real, fresh, clever underrated games based on the user's library and recently played titles. Avoid remasters, clones, and overhyped staples — focus on unique, vibe-matched picks that surprise and delight.
 
 CRITICAL OUTPUT RULES — VIOLATIONS WILL BREAK THE APP:
-1. Output ONLY a raw VALID JSON array: [...]. No wrapping object. No keys like 'all_games', 'games', or 'recommendations'. Just the array.
+1. Output ONLY a valid JSON object with one property named `recommendations`, whose value is an array of 10 game objects. No markdown or extra text.
 2. Every object must have EXACTLY these fields: id, genres, referenceGame, name, pitch, why, score, isWildcard. No extra fields, no missing fields.
 3. genres must be a JSON array of plain strings. Commas go BETWEEN strings, never inside them.
    CORRECT: [""RPG"", ""Action""]
@@ -121,15 +121,17 @@ EXAMPLE OF A VALID SINGLE ENTRY (notice genres is an array of plain strings only
   ""isWildcard"": false
 }}
 
-VALID OUTPUT FORMAT (array of 10 objects, nothing else):
-[
-  {{ entry 1 }},
-  {{ entry 2 }},
-  ...
-  {{ entry 10, isWildcard: true }}
-]
+VALID OUTPUT FORMAT (one object with 10 recommendations, nothing else):
+{{
+  ""recommendations"": [
+    {{ entry 1 }},
+    {{ entry 2 }},
+    ...
+    {{ entry 10, isWildcard: true }}
+  ]
+}}
 
-THE RESPONSE MUST TO BE VALIDATED AGAINST THIS SCHEMA: {TMW2PlaySchema}";
+Each item in the `recommendations` array must match this schema: {TMW2PlaySchema}";
 
             var userPrompt = $@"all_games: [{string.Join(", ", allGames)}]
 [Recently Played]: [{string.Join(", ", lastTwoWeeks)}]
@@ -142,7 +144,9 @@ language: {language}";
                 {
                     new Message { Role = "system", Content = systemPrompt },
                     new Message { Role = "user", Content = userPrompt }
-                }
+                },
+                Plugins = [new OpenRouterPlugin { Id = "response-healing" }],
+                ResponseFormat = new OpenRouterResponseFormat { Type = "json_object" }
             };
         }
 
@@ -185,9 +189,9 @@ Example entry:
   ""anticipation"": 8
 }}
 
-Respond strictly as a JSON array (no extra text). 
+Respond strictly as a JSON object with one property named `recommendations`, whose value is an array of 5–8 game objects. No markdown or extra text.
 
-THE RESPONSE MUST TO BE VALIDATED AGAINST THIS SCHEMA: {UpcomingGameReleaseSchema}";
+Each item in the `recommendations` array must match this schema: {UpcomingGameReleaseSchema}";
 
             var userPrompt = $@"all_games: [{string.Join(", ", allGames)}]
 [Recently Played]: [{string.Join(", ", lastTwoWeeks)}]
@@ -200,7 +204,9 @@ language: {language}";
                 {
                     new Message { Role = "system", Content = systemPrompt },
                     new Message { Role = "user", Content = userPrompt }
-                }
+                },
+                Plugins = [new OpenRouterPlugin { Id = "response-healing" }],
+                ResponseFormat = new OpenRouterResponseFormat { Type = "json_object" }
             };
         }
 
