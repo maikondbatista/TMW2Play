@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode, LOCALE_ID } from '@angular/core';
+import { ApplicationConfig, provideZonelessChangeDetection, isDevMode, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { registerLocaleData, DatePipe } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
@@ -9,7 +9,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr }
 import { provideCharts } from 'ng2-charts';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { ArcElement, Colors, Legend, PieController, Tooltip } from 'chart.js';
-import { provideToastr } from 'ngx-toastr';
+import { provideRetoast } from 'ngx-retoast';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     [
       provideZoneChangeDetection({ eventCoalescing: true }),
       provideRouter(routes, withHashLocation()),
-      provideToastr({ positionClass: 'toast-bottom-right' }),
+      provideRetoast({ positionClass: 'toast-bottom-right' }),
       provideCharts({ registerables: [PieController, ArcElement, Colors, Tooltip, Legend] }),
       provideHttpClient(withXhr(), withInterceptorsFromDi()),
       provideAnimations(),

@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AdvancedPieChartModel } from '../../../shared/models/charts/advanced-pie-chart.model';
@@ -28,7 +28,7 @@ export class LastTwoWeeksComponent {
     responsive: false
   };
 
-  constructor(private translationService: TranslocoService) {
+  constructor(private translationService: TranslocoService, private changeDetector: ChangeDetectorRef) {
   }
   ngOnInit() {
     const playTimeHours = this.translationService.translate('profile.chartsTab.lastTwoWeeks.playTimeHours');
@@ -40,6 +40,7 @@ export class LastTwoWeeksComponent {
             { data: this.data.map(d => d.value), label: playTimeHours }
           ]
         };
+        this.changeDetector.markForCheck();
       }
     }, 1000);
 
