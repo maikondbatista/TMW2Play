@@ -1,0 +1,19 @@
+name: Backend CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Test backend (no Discord credentials required)
+        run: dotnet test backend/TMW2Play.Api.sln --configuration ${{ matrix.configuration }}

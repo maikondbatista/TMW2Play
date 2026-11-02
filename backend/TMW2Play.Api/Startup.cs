@@ -25,6 +25,7 @@ namespace TMW2Play.Api
             services.AddSteam(Configuration);
             services.AddOpenRouterAi(Configuration);
             services.AddServices();
+            services.AddDiscordNotifications(Configuration);
             services.AddHybridCache();
             services.AddRateLimiter(options =>
             {
@@ -52,10 +53,9 @@ namespace TMW2Play.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
+            app.UseExceptionHandler();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {

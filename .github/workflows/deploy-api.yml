@@ -32,7 +32,8 @@ jobs:
         run: |
           sed -i "s|YOUR_STEAM_API_KEY|${{ secrets.STEAM_API_KEY }}|g" publish/appsettings.json
           sed -i "s|YOUR_OPENROUTER_API_KEY|${{ secrets.OPENROUTER_API_KEY }}|g" publish/appsettings.json
-        
+          sed -i "s|YOUR_DISCORD_WEBHOOKERROR_URL_OR_BLANK|${{ secrets.DISCORD_WEB_HOOK_URL }}|g" publish/appsettings.json
+
       - name: Deploy to Somee
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
