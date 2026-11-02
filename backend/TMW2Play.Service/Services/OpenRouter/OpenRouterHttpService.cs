@@ -15,160 +15,74 @@ namespace TMW2Play.Service.Services.OpenRouter
     {
         public async Task<string> HumiliateMyLibrary(HumiliateMyLibraryRequest request, string language, CancellationToken cancellationToken = default)
         {
-            try
+            var body = openRouterConfig.HumiliateMyLibrary(request, language);
+            if (body is null)
             {
-                var url = openRouterConfig.LLMUrl();
-                var body = openRouterConfig.HumiliateMyLibrary(request, language);
-
-                if (body is null)
-                {
-                    notification.AddNotification("No games added to library.");
-                    return null;
-                }
-
-                var response = await httpService.PostAsync<OpenRouterApiResponse>(url, body, cancellationToken, OpenRouterAuthHeaders());
-                var comment = response?.Choices?.FirstOrDefault()?.Message?.Content;
-
-                if (string.IsNullOrWhiteSpace(comment))
-                {
-                    notification.AddNotification("No Humiliation was able to be done.");
-                    return null;
-                }
-
-                return CleanJson(comment);
+                notification.AddNotification("No games added to library.");
+                return null;
             }
-            catch (Exception)
-            {
-                notification.AddNotification("An error occurred while fetching humiliation.");
-            }
-            return null;
+
+            var response = await httpService.PostAsync<OpenRouterApiResponse>(openRouterConfig.LLMUrl(), body, cancellationToken, OpenRouterAuthHeaders());
+            var comment = response?.Choices?.FirstOrDefault()?.Message?.Content;
+            if (string.IsNullOrWhiteSpace(comment))
+                throw new InvalidDataException("OpenRouter returned an empty humiliation response.");
+            return CleanJson(comment);
         }
 
         public async Task<List<GameRecommendation>> TellMeWhatToPlay(List<string> GamesWPlayTime, List<string> allGames, string language, CancellationToken cancellationToken = default)
         {
-            try
+            var body = openRouterConfig.TellMeWhatToPlayBody(GamesWPlayTime, allGames, language);
+            if (body is null)
             {
-                var url = openRouterConfig.LLMUrl();
-                var body = openRouterConfig.TellMeWhatToPlayBody(GamesWPlayTime, allGames, language);
-
-                if (body is null)
-                {
-                    notification.AddNotification("No games added to library.");
-                    return [];
-                }
-
-                var response = await httpService.PostAsync<OpenRouterApiResponse>(url, body, cancellationToken, OpenRouterAuthHeaders());
-                var jsonRecommendation = response?.Choices?.FirstOrDefault()?.Message?.Content;
-
-                if (string.IsNullOrWhiteSpace(jsonRecommendation))
-                {
-                    notification.AddNotification("No recommendations found in AI response.");
-                    return [];
-                }
-
-                var cleanedJson = CleanJson(jsonRecommendation);
-
-                if (!TryParseJsonArray(cleanedJson, out var jsonArray, out var parseError))
-                {
-                    notification.AddNotification($"Invalid JSON format in recommended games response: {parseError}");
-                    return [];
-                }
-
-                var schema = JsonSchema.FromText(openRouterConfig.TMW2PlaySchema);
-
-                foreach (var item in jsonArray)
-                {
-                    var jsonElement = JsonSerializer.SerializeToElement(item);
-                    var result = schema.Evaluate(jsonElement);
-                    if (!result.IsValid)
-                    {
-                        notification.AddNotification("One or more recommendations do not match the required schema: " +
-                            string.Join("; ", result.Details?.Select(d => d.ToString()) ?? []));
-                        return [];
-                    }
-                }
-
-                try
-                {
-                    var recommendations = jsonArray.Deserialize<List<GameRecommendation>>();
-                    if (recommendations is not null)
-                        return recommendations;
-
-                    notification.AddNotification("Failed to parse recommended games response.");
-                }
-                catch (JsonException)
-                {
-                    notification.AddNotification("Deserialization error");
-                }
+                notification.AddNotification("No games added to library.");
+                return [];
             }
-            catch (Exception)
+
+            var response = await httpService.PostAsync<OpenRouterApiResponse>(openRouterConfig.LLMUrl(), body, cancellationToken, OpenRouterAuthHeaders());
+            var content = response?.Choices?.FirstOrDefault()?.Message?.Content;
+            if (string.IsNullOrWhiteSpace(content))
+                throw new InvalidDataException("OpenRouter returned an empty recommendations response.");
+
+            var jsonArray = ParseJsonArray(CleanJson(content));
+            var schema = JsonSchema.FromText(openRouterConfig.TMW2PlaySchema);
+            foreach (var item in jsonArray)
             {
-                notification.AddNotification("An error occurred while fetching recommended games");
+                var result = schema.Evaluate(JsonSerializer.SerializeToElement(item));
+                if (!result.IsValid)
+                    throw new JsonException("OpenRouter recommendations do not match the required schema: " +
+                        string.Join("; ", result.Details?.Select(d => d.ToString()) ?? []));
             }
-            return [];
+
+            return jsonArray.Deserialize<List<GameRecommendation>>()
+                ?? throw new JsonException("Failed to deserialize OpenRouter recommendations.");
         }
 
         public async Task<List<GameUpcoming>> TellMeWhatIsUpcoming(TellMeWhatIsUpcomingRequest request, string language, CancellationToken cancellationToken)
         {
-            try
+            var body = openRouterConfig.TellMeWhatIsUpcomingBody(request.LastTwoWeeks, request.AllGames, language);
+            if (body is null)
             {
-                var url = openRouterConfig.LLMUrl();
-                var body = openRouterConfig.TellMeWhatIsUpcomingBody(request.LastTwoWeeks, request.AllGames, language);
-
-                if (body is null)
-                {
-                    notification.AddNotification("No games added to library.");
-                    return [];
-                }
-
-                var response = await httpService.PostAsync<OpenRouterApiResponse>(url, body, cancellationToken, OpenRouterAuthHeaders());
-                var jsonUpcoming = response?.Choices?.FirstOrDefault()?.Message?.Content;
-
-                if (string.IsNullOrWhiteSpace(jsonUpcoming))
-                {
-                    notification.AddNotification("No upcoming games found in AI response.");
-                    return [];
-                }
-
-                var cleanedJson = CleanJson(jsonUpcoming);
-
-                if (!TryParseJsonArray(cleanedJson, out var jsonArray, out var parseError))
-                {
-                    notification.AddNotification($"Invalid JSON format in upcoming games response: {parseError}");
-                    return [];
-                }
-
-                var schema = JsonSchema.FromText(openRouterConfig.UpcomingGameReleaseSchema);
-                foreach (var item in jsonArray)
-                {
-                    var jsonElement = JsonSerializer.SerializeToElement(item);
-                    var result = schema.Evaluate(jsonElement);
-                    if (!result.IsValid)
-                    {
-                        notification.AddNotification("One or more recommendations do not match the required schema: " +
-                            string.Join("; ", result.Details?.Select(d => d.ToString()) ?? []));
-                        return [];
-                    }
-                }
-
-                try
-                {
-                    var gameReleases = jsonArray.Deserialize<List<GameUpcoming>>();
-                    if (gameReleases is not null)
-                        return gameReleases;
-
-                    notification.AddNotification("Failed to parse recommended games response.");
-                }
-                catch (JsonException)
-                {
-                    notification.AddNotification("Deserialization error");
-                }
+                notification.AddNotification("No games added to library.");
+                return [];
             }
-            catch (Exception)
+
+            var response = await httpService.PostAsync<OpenRouterApiResponse>(openRouterConfig.LLMUrl(), body, cancellationToken, OpenRouterAuthHeaders());
+            var content = response?.Choices?.FirstOrDefault()?.Message?.Content;
+            if (string.IsNullOrWhiteSpace(content))
+                throw new InvalidDataException("OpenRouter returned an empty upcoming games response.");
+
+            var jsonArray = ParseJsonArray(CleanJson(content));
+            var schema = JsonSchema.FromText(openRouterConfig.UpcomingGameReleaseSchema);
+            foreach (var item in jsonArray)
             {
-                notification.AddNotification("An error occurred while fetching upcoming games.");
+                var result = schema.Evaluate(JsonSerializer.SerializeToElement(item));
+                if (!result.IsValid)
+                    throw new JsonException("OpenRouter upcoming games do not match the required schema: " +
+                        string.Join("; ", result.Details?.Select(d => d.ToString()) ?? []));
             }
-            return [];
+
+            return jsonArray.Deserialize<List<GameUpcoming>>()
+                ?? throw new JsonException("Failed to deserialize OpenRouter upcoming games.");
         }
 
         private Dictionary<string, string> OpenRouterAuthHeaders()
@@ -196,42 +110,18 @@ namespace TMW2Play.Service.Services.OpenRouter
             return input.Trim();
         }
 
-        private static bool TryParseJsonArray(string json, out JsonArray jsonArray, out string error)
+        private static JsonArray ParseJsonArray(string json)
         {
-            try
-            {
-                var node = JsonNode.Parse(json);
-                if (node is JsonArray arr)
-                {
-                    jsonArray = arr;
-                    error = string.Empty;
-                    return true;
-                }
+            var node = JsonNode.Parse(json);
+            if (node is JsonArray array) return array;
 
-                if (node is JsonObject obj)
-                {
-                    var knownKeys = new[] { "recommendations", "games", "all_games", "data", "results" };
-                    foreach (var key in knownKeys)
-                    {
-                        if (obj[key] is JsonArray nestedArray)
-                        {
-                            jsonArray = nestedArray;
-                            error = string.Empty;
-                            return true;
-                        }
-                    }
-                }
-
-                jsonArray = new JsonArray();
-                error = "Expected either a JSON array or an object with 'recommendations' array.";
-                return false;
-            }
-            catch (JsonException ex)
+            if (node is JsonObject obj)
             {
-                jsonArray = new JsonArray();
-                error = ex.Message;
-                return false;
+                foreach (var key in new[] { "recommendations", "games", "all_games", "data", "results" })
+                    if (obj[key] is JsonArray nestedArray) return nestedArray;
             }
+
+            throw new JsonException("Expected a JSON array or an object containing a recommendations array.");
         }
     }
 }

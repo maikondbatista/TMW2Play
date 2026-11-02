@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMW2Play.Domain", "TMW2Play
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMW2Play.Service", "TMW2Play.Service\TMW2Play.Service.csproj", "{117C6883-6128-4067-8CF7-FB5A3424F4AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMW2Play.Api.Tests", "TMW2Play.Api.Tests\TMW2Play.Api.Tests.csproj", "{EC982E73-A15F-4745-ABA9-E383DE9E5524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -33,7 +33,7 @@ dotnet user-secrets set "OpenRouterAPIKey" "YOUR_OPENROUTER_API_KEY"
 dotnet user-secrets set "OpenRouterModel" "openrouter/free"
 ```
 
-Do not commit API keys. Production deployments use GitHub Actions secrets for Steam, OpenRouter, and hosting credentials.
+Do not commit API keys. `appsettings.json` keeps credential fields empty; `appsettings.example.json` contains reference placeholders. Configure production API keys through server configuration or environment variables (`SteamAPIKey`, `OpenRouterAPIKey`, and optional `DiscordWebHookURL`).
 
 ## Run with Docker
 
@@ -99,3 +99,33 @@ docs/          GitHub Pages site and static assets
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Notificações de erros no Discord
+
+O [PRD de notificações de erros](docs/prd/discord-error-notifications.md) descreve a integração opcional para alertas de erros da API e integrações Steam/OpenRouter. A exception é enviada como `exception.ToString()`, sem sanitização, reformatação ou truncamento. Quando não couber na mensagem, o texto original completo segue em anexo. Eventuais credenciais ou dados pessoais presentes na exception também serão enviados; use um canal restrito.
+
+Cada alerta deverá conter uma tag visível `[Debug]` ou `[Release]` (produção), conforme o build do componente que originou o erro, além do ambiente de execução.
+
+A configuração usa um webhook de entrada do Discord. Crie um webhook para o canal desejado nas integrações do Discord e copie a URL. Ela contém a credencial necessária, sem bot ou API key separada, e deve ficar exclusivamente no backend na chave simples `DiscordWebHookURL`, na raiz do appsettings, ou no secret/variável de ambiente de mesmo nome. Nunca inclua essa URL no frontend ou no repositório.
+
+```json
+{
+  "DiscordWebHookURL": ""
+}
+```
+
+Para desenvolvimento local, configure pelo diretório `backend/TMW2Play.Api`:
+
+```powershell
+dotnet user-secrets set "DiscordWebHookURL" "https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN"
+```
+
+O arquivo [appsettings.example.json](backend/TMW2Play.Api/appsettings.example.json) contém os valores de referência. Preencha `DiscordWebHookURL` apenas na configuração local/do servidor ou em uma variável de ambiente. Para Docker Compose, defina `DiscordWebHookURL` no ambiente antes de executar `docker compose up --build`; o Compose encaminha essa variável somente ao backend. O workflow não configura o Discord. Reinicie/republique o backend após alterar a configuração.
+
+Sem URL configurada, nenhuma tentativa de notificação é feita. Com URL configurada, o serviço faz uma única tentativa de envio assíncrono, com timeout de 5 segundos. Falhas de envio são ignoradas, sem logger e sem afetar o usuário.
+
+A captura fica no `ApiExceptionHandler`, usando o `IExceptionHandler` nativo do ASP.NET Core. Ele envia a exception original ao Discord e devolve HTTP 500 com uma mensagem genérica ao usuário, inclusive em Development. Os serviços deixam falhas técnicas propagarem até esse handler e não dependem do notificador. Notifications continuam sendo usadas para validações de negócio, sem exception, stack trace ou detalhes de parsing. Validações 4xx sem exception não acionam o webhook.
+
+Não existe controller ou endpoint de notificação exposto aos usuários. O alerta inclui `[Debug]` ou `[Release]`, ambiente, horário UTC, método/caminho da requisição e identificador de rastreamento. Erros exclusivos do navegador e tarefas fora das requisições não são capturados automaticamente.
+
+A implementação usa apenas o exception handler e um serviço de envio. Não há fila, worker ou retries. A requisição não aguarda o Discord; se a aplicação encerrar antes do envio terminar, o alerta pode ser perdido. Use um canal restrito para os diagnósticos.

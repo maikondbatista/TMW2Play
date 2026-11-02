@@ -11,6 +11,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
+      - DiscordWebHookURL=${DiscordWebHookURL:-}
     networks:
       - tmw2play-network
     restart: unless-stopped
