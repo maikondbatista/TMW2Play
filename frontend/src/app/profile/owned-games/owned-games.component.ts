@@ -19,9 +19,9 @@ export class OwnedGamesComponent {
   translationPrefix = 'profile.ownedGames.';
 
   getGameImageUrl(game: GameModel): string {
-    return `https://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`;
+    return `https://shared.fastly.steamstatic.com/community_assets/images/apps/${game.appid}/${game.img_icon_url}.jpg`;
   }
-  
+
   constructor(signalService: SignalService) {
     effect(() => {
         this.ownedGames = signalService.ownedGamesSignal();
